@@ -38,7 +38,13 @@ export default function Login() {
       }
     } catch (error: any) {
       console.error(error);
-      setError(error.message || "Failed to sign in");
+      if (error.message === "Firebase: Error (auth/invalid-credential).") {
+        setError("Invalid email or password");
+      } else if (error.message === "Firebase: Error (auth/user-not-found).") {
+        setError("User not found");
+      } else {
+        setError(error.message || "Failed to sign in");
+      }
     } finally {
       setLoading(false);
     }

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import complaintsApi from "../api/complaints";
-import { Complaint, ComplaintUpdate } from "../types/complaint.types";
+import { Complaint } from "../types/complaint.types";
 import { uploadFile } from "../services/fileUpload";
 
 export default function CustomerDashboard() {
@@ -295,7 +295,7 @@ export default function CustomerDashboard() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 px-4 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>

@@ -40,28 +40,6 @@ export default function StaffDashboard() {
     }
   };
 
-  const handleStatusUpdate = async (complaintId: number, newStatus: string) => {
-    try {
-      await complaintsApi.createComplaintUpdate({
-        complaint_id: complaintId,
-        updated_by: currentUser!.user_id,
-        status: newStatus as any,
-        comment: `Status updated to ${newStatus}`,
-      });
-      // Update local state
-      setComplaints(
-        complaints.map((complaint) =>
-          complaint.complaint_id === complaintId
-            ? { ...complaint, status: newStatus as any }
-            : complaint
-        )
-      );
-    } catch (error) {
-      console.error("Error updating status:", error);
-      alert("Error updating status");
-    }
-  };
-
   const handleViewDetails = (complaintId: number, e: React.MouseEvent) => {
     e.stopPropagation();
     navigate(`/complaints/${complaintId}`);
@@ -266,16 +244,16 @@ export default function StaffDashboard() {
               <div>
                 <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
                   <button
-                    onClick={() => setPage(page - 1)}
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 border rounded-md disabled:opacity-50"
                   >
                     Previous
                   </button>
                   <button
-                    onClick={() => setPage(page + 1)}
+                    onClick={() => setPage((p) => p + 1)}
                     disabled={page * pageSize >= total}
-                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 border rounded-md disabled:opacity-50"
                   >
                     Next
                   </button>
