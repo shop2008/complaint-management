@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import ComplaintModel from "../models/complaint";
-
+import { authMiddleware } from "../middleware/auth";
 const router = Router();
 
 const createComplaintSchema = z.object({
@@ -17,7 +17,7 @@ const updateComplaintSchema = z.object({
   assigned_staff: z.string().optional(),
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const complaintData = createComplaintSchema.parse(req.body);
     const complaint = await ComplaintModel.create(complaintData);
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
     const pageSize = Number(req.query.pageSize) || 10;
@@ -53,7 +53,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/user/:userId", async (req, res) => {
+router.get("/user/:userId", authMiddleware, async (req, res) => {
   try {
     const complaints = await ComplaintModel.findByUserId(req.params.userId);
     res.json(complaints);
@@ -62,7 +62,7 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
-router.get("/:complaintId", async (req, res) => {
+router.get("/:complaintId", authMiddleware, async (req, res) => {
   try {
     const complaint = await ComplaintModel.findById(
       Number(req.params.complaintId)
@@ -76,7 +76,7 @@ router.get("/:complaintId", async (req, res) => {
   }
 });
 
-router.patch("/:complaintId", async (req, res) => {
+router.patch("/:complaintId", authMiddleware, async (req, res) => {
   try {
     const updates = updateComplaintSchema.parse(req.body);
     const complaint = await ComplaintModel.update(

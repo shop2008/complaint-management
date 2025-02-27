@@ -2,7 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import ComplaintUpdateModel from "../models/complaintUpdate";
 import ComplaintModel from "../models/complaint";
-
+import { authMiddleware } from "../middleware/auth";
 const router = Router();
 
 const createUpdateSchema = z.object({
@@ -12,7 +12,7 @@ const createUpdateSchema = z.object({
   comment: z.string(),
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const updateData = createUpdateSchema.parse(req.body);
 
@@ -34,26 +34,12 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/complaint/:complaintId", async (req, res) => {
+router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
   try {
     const updates = await ComplaintUpdateModel.findByComplaintId(
       Number(req.params.complaintId)
     );
     res.json(updates);
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-router.get("/complaint/:complaintId/latest", async (req, res) => {
-  try {
-    const update = await ComplaintUpdateModel.getLatestUpdate(
-      Number(req.params.complaintId)
-    );
-    if (!update) {
-      return res.status(404).json({ error: "No updates found" });
-    }
-    res.json(update);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }

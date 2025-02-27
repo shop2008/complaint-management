@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import FeedbackModel from "../models/feedback";
-
+import { authMiddleware } from "../middleware/auth";
 const router = Router();
 
 const createFeedbackSchema = z.object({
@@ -10,7 +10,7 @@ const createFeedbackSchema = z.object({
   comments: z.string().optional(),
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const feedbackData = createFeedbackSchema.parse(req.body);
     const feedback = await FeedbackModel.create(feedbackData);
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/complaint/:complaintId", async (req, res) => {
+router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
   try {
     const feedback = await FeedbackModel.findByComplaintId(
       Number(req.params.complaintId)

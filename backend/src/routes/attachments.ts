@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import AttachmentModel from "../models/attachment";
+import { authMiddleware } from "../middleware/auth";
 
 const router = Router();
 
@@ -9,7 +10,7 @@ const createAttachmentSchema = z.object({
   file_url: z.string().url(),
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const attachmentData = createAttachmentSchema.parse(req.body);
     const attachment = await AttachmentModel.create(attachmentData);
@@ -23,21 +24,12 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/complaint/:complaintId", async (req, res) => {
+router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
   try {
     const attachments = await AttachmentModel.findByComplaintId(
       Number(req.params.complaintId)
     );
     res.json(attachments);
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-router.delete("/:attachmentId", async (req, res) => {
-  try {
-    await AttachmentModel.delete(Number(req.params.attachmentId));
-    res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
