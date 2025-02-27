@@ -1,0 +1,575 @@
+
+
+  VITE v6.2.0  ready in 314 ms  ➜  Local:   http://localhost:5173/  ➜  Network: use --host to expose  ➜  press h + enter to show help9:28:21 AM [vite] (client) hmr update /src/App.tsx, /src/index.css
+9:29:24 AM [vite] (client) hmr update /src/App.tsx, /src/index.css (x2)9:29:49 AM [vite] (client) hmr update /src/components/Login.tsx, /src/index.css9:30:07 AM [vite] (client) hmr update /src/App.tsx, /src/index.css
+9:30:07 AM [vite] (client) hmr update /src/components/RoleBasedRedirect.tsx, /src/inde
+9:30:07 AM [vite] (client) hmr update /src/components/RoleBasedRedirect.tsx, /src/index.css
+9:30:28 AM [vite] (client) hmr update /src/components/RoleBasedRedirect.tsx, /src/inde
+9:30:28 AM [vite] (client) hmr update /src/components/RoleBasedRedirect.tsx, /src/index.css (x2)
+9:39:34 AM [vite] (client) hmr update /src/components/Navigation.tsx, /src/index.css
+9:39:57 AM [vite] (client) hmr update /src/App.tsx, /src/index.css
+9:40:22 AM [vite] (client) page reload index.html
+9:42:04 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css
+9:42:39 AM [vite] (client) hmr update /src/App.tsx, /src/index.css
+9:43:15 AM [vite] (client) hmr update /src/App.tsx, /src/index.css (x2)
+9:44:57 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css
+9:45:30 AM [vite] (client) hmr update /src/App.tsx, /src/index.css
+9:45:59 AM [vite] (client) hmr update /src/App.tsx, /src/index.css (x2)
+9:48:34 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css
+9:49:08 AM [vite] (client) hmr update /src/App.tsx, /src/index.css
+9:51:36 AM [vite] (client) hmr update /src/components/Navigation.tsx, /src/index.css
+9:51:47 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css
+9:51:48 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css (x2)
+9:53:10 AM [vite] (client) hmr update /src/components/Login.tsx, /src/index.css
+9:53:15 AM [vite] (client) hmr update /src/components/Login.tsx, /src/index.css (x2)
+9:53:18 AM [vite] (client) hmr update /src/components/Login.tsx, /src/index.css (x3)
+9:53:20 AM [vite] (client) hmr update /src/components/Login.tsx, /src/index.css (x4)
+9:53:23 AM [vite] (client) hmr update /src/components/Login.tsx, /src/index.css (x5)
+9:53:47 AM [vite] (client) hmr update /src/components/Login.tsx, /src/index.css (x6)
+9:54:09 AM [vite] (client) hmr update /src/components/Login.tsx, /src/index.css (x7)
+9:55:33 AM [vite] (client) hmr update /src/App.tsx, /src/index.css
+9:55:34 AM [vite] (client) hmr update /src/App.tsx, /src/index.css (x2)
+9:56:12 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css
+9:56:22 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css (x2)
+9:56:32 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css (x3)
+9:56:58 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css (x4)
+9:57:03 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css (x5)
+9:59:10 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css (x6)
+9:59:32 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css (x7)
+9:59:32 AM [vite] (client) hmr update /src/contexts/SidebarContext.tsx, /src/index.css
+9:59:32 AM [vite] Internal server error: Failed to resolve import "../contexts/Sidebar
+9:59:32 AM [vite] Internal server error: Failed to resolve import "../contexts/SidebarContext" from "src/components/Sidebar.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Side
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Sidebar.tsx:3:27
+  18 |  import { Link } from "react-router-dom";
+  19 |  import { useAuth } from "../contexts/AuthContext";
+  20 |  import { useSidebar } from "../contexts/SidebarContext";
+     |                              ^
+  21 |  import { useEffect } from "react";
+  22 |  export default function Sidebar() {
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-co
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47835:41)
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complai
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47832:16)
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboa
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:45968:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46087:37
+      at async Promise.all (index 5)
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/custom
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/cu
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47630:18)
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/adm
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:41318:27)
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-compla
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:42781:24)
+9:59:46 AM [vite] (client) hmr update /src/contexts/SidebarContext.tsx, /src/index.css
+9:59:46 AM [vite] (client) hmr update /src/contexts/SidebarContext.tsx, /src/index.css, /src/App.tsx
+9:59:46 AM [vite] (client) hmr invalidate /src/contexts/SidebarContext.tsx Could not F
+9:59:46 AM [vite] (client) hmr invalidate /src/contexts/SidebarContext.tsx Could not Fast Refresh ("useSidebar" export is incompatible). Learn more at https://github.com/vi
+9:59:46 AM [vite] (client) hmr invalidate /src/contexts/SidebarContext.tsx Could not Fast Refresh ("useSidebar" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+9:59:46 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css, /sr
+9:59:46 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css, /src/App.tsx
+10:00:25 AM [vite] (client) hmr update /src/contexts/SidebarContext.tsx
+10:00:25 AM [vite] (client) hmr invalidate /src/contexts/SidebarContext.tsx Could not 
+10:00:25 AM [vite] (client) hmr invalidate /src/contexts/SidebarContext.tsx Could not Fast Refresh ("useSidebar" export is incompatible). Learn more at https://github.com/v
+10:00:25 AM [vite] (client) hmr invalidate /src/contexts/SidebarContext.tsx Could not Fast Refresh ("useSidebar" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+10:00:25 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css, /s
+10:00:25 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css, /src/App.tsx
+10:01:11 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css
+10:01:38 AM [vite] (client) hmr update /src/App.tsx, /src/index.css
+10:02:10 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css
+10:07:04 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css (x2
+10:07:04 AM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css (x2)
+10:07:04 AM [vite] Internal server error: Failed to resolve import "@/lib/utils" from 
+10:07:04 AM [vite] Internal server error: Failed to resolve import "@/lib/utils" from "src/components/Sidebar.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Side
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Sidebar.tsx:8:19
+  23 |  import { Separator } from "./ui/separator";
+  24 |  import { Button } from "./ui/button";
+  25 |  import { cn } from "@/lib/utils";
+     |                      ^
+  26 |  function SidebarNav({ className, items, ...props }) {
+  27 |    _s();
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-co
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47835:41)
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complai
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47832:16)
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboa
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:45968:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46087:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/custom
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/cu
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47630:18)
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/adm
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:41318:27)
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-compla
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:42781:24)
+10:07:04 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:04 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-slot" from "src/components/ui/button.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/b
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/button.tsx:2:21
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import { Slot } from "@radix-ui/react-slot";
+     |                        ^
+  19 |  import { cva } from "class-variance-authority";
+  20 |  import { cn } from "@/lib/utils";
+10:07:04 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:04 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-scroll-area" from "src/components/ui/scroll-area.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/scroll-area.tsx:2:37
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+     |                                        ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const ScrollArea = React.forwardRef(
+10:07:04 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:04 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-separator" from "src/components/ui/separator.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/separator.tsx:2:36
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as SeparatorPrimitive from "@radix-ui/react-separator";
+     |                                       ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const Separator = React.forwardRef(
+10:07:26 AM [vite] (client) page reload tailwind.config.js
+10:07:26 AM [vite] (client) Pre-transform error: [postcss] Cannot find module 'tailwin
+10:07:26 AM [vite] (client) Pre-transform error: [postcss] Cannot find module 'tailwindcss-animate'
+Require stack:
+- /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js
+  Plugin: vite:css
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undef
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undefined:NaN
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@/lib/utils
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@/lib/utils" from "src/components/Sidebar.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Side
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Sidebar.tsx:8:19
+  23 |  import { Separator } from "./ui/separator";
+  24 |  import { Button } from "./ui/button";
+  25 |  import { cn } from "@/lib/utils";
+     |                      ^
+  26 |  function SidebarNav({ className, items, ...props }) {
+  27 |    _s();
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-separator" from "src/components/ui/separator.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/separator.tsx:2:36
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as SeparatorPrimitive from "@radix-ui/react-separator";
+     |                                       ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const Separator = React.forwardRef(
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-scroll-area" from "src/components/ui/scroll-area.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/scroll-area.tsx:2:37
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+     |                                        ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const ScrollArea = React.forwardRef(
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-slot" from "src/components/ui/button.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/b
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/button.tsx:2:21
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import { Slot } from "@radix-ui/react-slot";
+     |                        ^
+  19 |  import { cva } from "class-variance-authority";
+  20 |  import { cn } from "@/lib/utils";
+10:07:26 AM [vite] Internal server error: [postcss] Cannot find module 'tailwindcss-an
+10:07:26 AM [vite] Internal server error: [postcss] Cannot find module 'tailwindcss-animate'
+Require stack:
+- /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js
+  Plugin: vite:css
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undef
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undefined:NaN
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1145:15)
+      at Function.resolve (node:internal/modules/helpers:190:19)
+      at _resolve (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_mod
+      at _resolve (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:246378)
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:249092)
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js:75:13
+      at evalModule (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_m
+      at evalModule (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:251913)
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:249841)
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailw
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/load-config.js:52:26
+      at loadConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_m
+      at loadConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/load-config.js:62:6)
+      at getTailwindConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard
+      at getTailwindConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/setupTrackingContext.js:71:116)
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailw
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/setupTrackingContext.js:100:92
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailw
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/processTailwindFeatures.js:46:11
+      at plugins (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modu
+      at plugins (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/plugin.js:38:69)
+      at LazyResult.runOnRoot (/Users/gigiwang/develop/customer-complaint/admin-dashbo
+      at LazyResult.runOnRoot (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:361:16)
+      at LazyResult.runAsync (/Users/gigiwang/develop/customer-complaint/admin-dashboa
+      at LazyResult.runAsync (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:290:26)
+      at LazyResult.async (/Users/gigiwang/develop/customer-complaint/admin-dashboard/
+      at LazyResult.async (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:192:30)
+      at LazyResult.then (/Users/gigiwang/develop/customer-complaint/admin-dashboard/n
+      at LazyResult.then (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:436:17)
+10:07:26 AM [vite] Internal server error: Failed to resolve import "@/lib/utils" from 
+10:07:26 AM [vite] Internal server error: Failed to resolve import "@/lib/utils" from "src/components/Sidebar.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Side
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Sidebar.tsx:8:19
+  23 |  import { Separator } from "./ui/separator";
+  24 |  import { Button } from "./ui/button";
+  25 |  import { cn } from "@/lib/utils";
+     |                      ^
+  26 |  function SidebarNav({ className, items, ...props }) {
+  27 |    _s();
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-co
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47835:41)
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complai
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47832:16)
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboa
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:45968:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46087:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/custom
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/cu
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47630:18)
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/adm
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:41318:27)
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-compla
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:42781:24)
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-scroll-area" from "src/components/ui/scroll-area.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/scroll-area.tsx:2:37
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+     |                                        ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const ScrollArea = React.forwardRef(
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-separator" from "src/components/ui/separator.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/separator.tsx:2:36
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as SeparatorPrimitive from "@radix-ui/react-separator";
+     |                                       ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const Separator = React.forwardRef(
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:26 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-slot" from "src/components/ui/button.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/b
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/button.tsx:2:21
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import { Slot } from "@radix-ui/react-slot";
+     |                        ^
+  19 |  import { cva } from "class-variance-authority";
+  20 |  import { cn } from "@/lib/utils";
+10:07:54 AM [vite] (client) hmr update /src/index.css
+10:07:54 AM [vite] (client) Pre-transform error: [postcss] Cannot find module 'tailwin
+10:07:54 AM [vite] (client) Pre-transform error: [postcss] Cannot find module 'tailwindcss-animate'
+Require stack:
+- /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js
+  Plugin: vite:css
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undef
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undefined:NaN
+10:07:55 AM [vite] Internal server error: [postcss] Cannot find module 'tailwindcss-an
+10:07:55 AM [vite] Internal server error: [postcss] Cannot find module 'tailwindcss-animate'
+Require stack:
+- /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js
+  Plugin: vite:css
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undef
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undefined:NaN
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1145:15)
+      at Function.resolve (node:internal/modules/helpers:190:19)
+      at _resolve (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_mod
+      at _resolve (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:246378)
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:249092)
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js:75:13
+      at evalModule (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_m
+      at evalModule (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:251913)
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:249841)
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailw
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/load-config.js:52:26
+      at loadConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_m
+      at loadConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/load-config.js:62:6)
+      at getTailwindConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard
+      at getTailwindConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/setupTrackingContext.js:71:116)
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailw
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/setupTrackingContext.js:100:92
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailw
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/processTailwindFeatures.js:46:11
+      at plugins (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modu
+      at plugins (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/plugin.js:38:69)
+      at LazyResult.runOnRoot (/Users/gigiwang/develop/customer-complaint/admin-dashbo
+      at LazyResult.runOnRoot (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:361:16)
+      at LazyResult.runAsync (/Users/gigiwang/develop/customer-complaint/admin-dashboa
+      at LazyResult.runAsync (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:290:26)
+      at LazyResult.async (/Users/gigiwang/develop/customer-complaint/admin-dashboard/
+      at LazyResult.async (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:192:30)
+      at LazyResult.then (/Users/gigiwang/develop/customer-complaint/admin-dashboard/n
+      at LazyResult.then (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:436:17)
+10:07:55 AM [vite] Internal server error: Failed to resolve import "@/lib/utils" from 
+10:07:55 AM [vite] Internal server error: Failed to resolve import "@/lib/utils" from "src/components/Sidebar.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Side
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Sidebar.tsx:8:19
+  23 |  import { Separator } from "./ui/separator";
+  24 |  import { Button } from "./ui/button";
+  25 |  import { cn } from "@/lib/utils";
+     |                      ^
+  26 |  function SidebarNav({ className, items, ...props }) {
+  27 |    _s();
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-co
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47835:41)
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complai
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47832:16)
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboa
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:45968:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46087:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/custom
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/cu
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47630:18)
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/adm
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:41318:27)
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-compla
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:42781:24)
+10:07:55 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:55 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-slot" from "src/components/ui/button.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/b
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/button.tsx:2:21
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import { Slot } from "@radix-ui/react-slot";
+     |                        ^
+  19 |  import { cva } from "class-variance-authority";
+  20 |  import { cn } from "@/lib/utils";
+10:07:55 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:55 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-separator" from "src/components/ui/separator.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/separator.tsx:2:36
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as SeparatorPrimitive from "@radix-ui/react-separator";
+     |                                       ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const Separator = React.forwardRef(
+10:07:55 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:07:55 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-scroll-area" from "src/components/ui/scroll-area.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/scroll-area.tsx:2:37
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+     |                                        ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const ScrollArea = React.forwardRef(
+10:08:15 AM [vite] (client) hmr update /src/index.css, /src/App.tsx
+10:08:15 AM [vite] (client) Pre-transform error: [postcss] Cannot find module 'tailwin
+10:08:15 AM [vite] (client) Pre-transform error: [postcss] Cannot find module 'tailwindcss-animate'
+Require stack:
+- /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js
+  Plugin: vite:css
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undef
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undefined:NaN
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@/lib/utils
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@/lib/utils" from "src/components/Sidebar.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Side
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Sidebar.tsx:8:19
+  23 |  import { Separator } from "./ui/separator";
+  24 |  import { Button } from "./ui/button";
+  25 |  import { cn } from "@/lib/utils";
+     |                      ^
+  26 |  function SidebarNav({ className, items, ...props }) {
+  27 |    _s();
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-separator" from "src/components/ui/separator.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/separator.tsx:2:36
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as SeparatorPrimitive from "@radix-ui/react-separator";
+     |                                       ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const Separator = React.forwardRef(
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-slot" from "src/components/ui/button.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/b
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/button.tsx:2:21
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import { Slot } from "@radix-ui/react-slot";
+     |                        ^
+  19 |  import { cva } from "class-variance-authority";
+  20 |  import { cn } from "@/lib/utils";
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-scroll-area" from "src/components/ui/scroll-area.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/scroll-area.tsx:2:37
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+     |                                        ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const ScrollArea = React.forwardRef(
+10:08:15 AM [vite] Internal server error: [postcss] Cannot find module 'tailwindcss-an
+10:08:15 AM [vite] Internal server error: [postcss] Cannot find module 'tailwindcss-animate'
+Require stack:
+- /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js
+  Plugin: vite:css
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undef
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/index.css:undefined:NaN
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1145:15)
+      at Function.resolve (node:internal/modules/helpers:190:19)
+      at _resolve (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_mod
+      at _resolve (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:246378)
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:249092)
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/tailwind.config.js:75:13
+      at evalModule (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_m
+      at evalModule (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:251913)
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules
+      at jiti (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/jiti/dist/jiti.js:1:249841)
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailw
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/load-config.js:52:26
+      at loadConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_m
+      at loadConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/load-config.js:62:6)
+      at getTailwindConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard
+      at getTailwindConfig (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/setupTrackingContext.js:71:116)
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailw
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/lib/setupTrackingContext.js:100:92
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailw
+      at /Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/processTailwindFeatures.js:46:11
+      at plugins (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modu
+      at plugins (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/tailwindcss/lib/plugin.js:38:69)
+      at LazyResult.runOnRoot (/Users/gigiwang/develop/customer-complaint/admin-dashbo
+      at LazyResult.runOnRoot (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:361:16)
+      at LazyResult.runAsync (/Users/gigiwang/develop/customer-complaint/admin-dashboa
+      at LazyResult.runAsync (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:290:26)
+      at LazyResult.async (/Users/gigiwang/develop/customer-complaint/admin-dashboard/
+      at LazyResult.async (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:192:30)
+      at LazyResult.then (/Users/gigiwang/develop/customer-complaint/admin-dashboard/n
+      at LazyResult.then (/Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/postcss/lib/lazy-result.js:436:17)
+10:08:15 AM [vite] Internal server error: Failed to resolve import "@/lib/utils" from 
+10:08:15 AM [vite] Internal server error: Failed to resolve import "@/lib/utils" from "src/components/Sidebar.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Side
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/Sidebar.tsx:8:19
+  23 |  import { Separator } from "./ui/separator";
+  24 |  import { Button } from "./ui/button";
+  25 |  import { cn } from "@/lib/utils";
+     |                      ^
+  26 |  function SidebarNav({ className, items, ...props }) {
+  27 |    _s();
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-co
+      at TransformPluginContext._formatLog (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47835:41)
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complai
+      at TransformPluginContext.error (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47832:16)
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboa
+      at normalizeUrl (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:45968:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_
+      at async file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46087:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/custom
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:
+      at async TransformPluginContext.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:46014:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/cu
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47
+      at async EnvironmentPluginContainer.transform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:47630:18)
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/adm
+      at async loadAndTransform (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:41318:27)
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-compla
+      at async viteTransformMiddleware (file:///Users/gigiwang/develop/customer-complaint/admin-dashboard/node_modules/vite/dist/node/chunks/dep-ByPKlqZ5.js:42781:24)
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-separator" from "src/components/ui/separator.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/separator.tsx:2:36
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as SeparatorPrimitive from "@radix-ui/react-separator";
+     |                                       ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const Separator = React.forwardRef(
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-slot" from "src/components/ui/button.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/b
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/button.tsx:2:21
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import { Slot } from "@radix-ui/react-slot";
+     |                        ^
+  19 |  import { cva } from "class-variance-authority";
+  20 |  import { cn } from "@/lib/utils";
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/r
+10:08:15 AM [vite] (client) Pre-transform error: Failed to resolve import "@radix-ui/react-scroll-area" from "src/components/ui/scroll-area.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/s
+  File: /Users/gigiwang/develop/customer-complaint/admin-dashboard/src/components/ui/scroll-area.tsx:2:37
+  16 |  }
+  17 |  import * as React from "react";
+  18 |  import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+     |                                        ^
+  19 |  import { cn } from "@/lib/utils";
+  20 |  const ScrollArea = React.forwardRef(
+^Z
+[1]  + 27410 suspended  npm run dev
