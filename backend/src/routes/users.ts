@@ -52,6 +52,7 @@ router.get("/me", authMiddleware, async (req: AuthRequest, res) => {
   }
 });
 
+// Get all staff members
 router.get("/staff", authMiddleware, async (req, res) => {
   try {
     const staffMembers = await UserModel.findStaffMembers();
@@ -61,6 +62,7 @@ router.get("/staff", authMiddleware, async (req, res) => {
   }
 });
 
+// Get user by ID
 router.get("/:userId", authMiddleware, async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.userId);

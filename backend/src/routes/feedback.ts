@@ -10,6 +10,7 @@ const createFeedbackSchema = z.object({
   comments: z.string().optional(),
 });
 
+// Create feedback
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const feedbackData = createFeedbackSchema.parse(req.body);
@@ -24,6 +25,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
+// Get feedback by complaint ID
 router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
   try {
     const feedback = await FeedbackModel.findByComplaintId(

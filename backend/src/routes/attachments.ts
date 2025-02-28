@@ -10,6 +10,7 @@ const createAttachmentSchema = z.object({
   file_url: z.string().url(),
 });
 
+// Create an attachment
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const attachmentData = createAttachmentSchema.parse(req.body);
@@ -24,6 +25,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
+// Get complaint attachments
 router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
   try {
     const attachments = await AttachmentModel.findByComplaintId(

@@ -130,29 +130,9 @@ const complaintsApi = {
   },
 
   /**
-   * Upload an attachment for a complaint
+   * Submit feedback for a complaint
    */
-  async uploadAttachment(
-    formData: FormData,
-    onProgress: (progress: number) => void
-  ) {
-    const response = await axios.post(`${API_BASE_URL}/attachments`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      onUploadProgress: (progressEvent) => {
-        if (progressEvent.total) {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          onProgress(percentCompleted);
-        }
-      },
-    });
-    return response.data;
-  },
-
-  submitFeedback: async ({
+  async submitFeedback({
     complaint_id,
     rating,
     comment,
@@ -160,7 +140,7 @@ const complaintsApi = {
     complaint_id: number;
     rating: number;
     comment: string;
-  }) => {
+  }) {
     const response = await axios.post(`${API_BASE_URL}/feedback`, {
       complaint_id,
       rating,

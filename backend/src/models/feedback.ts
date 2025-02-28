@@ -31,14 +31,6 @@ class FeedbackModel {
 
     return (feedback[0] as Feedback) || null;
   }
-
-  async getAverageRating(): Promise<number> {
-    const [result] = await db.execute<RowDataPacket[]>(
-      "SELECT AVG(rating) as average FROM Feedback"
-    );
-
-    return result[0].average || 0;
-  }
 }
 
 export default new FeedbackModel();

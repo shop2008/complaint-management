@@ -12,6 +12,7 @@ const createUpdateSchema = z.object({
   comment: z.string(),
 });
 
+// Create a new complaint update
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const updateData = createUpdateSchema.parse(req.body);
@@ -34,6 +35,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
+// Get complaint updates by complaint ID
 router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
   try {
     const updates = await ComplaintUpdateModel.findByComplaintId(
@@ -45,6 +47,7 @@ router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
   }
 });
 
+// Delete a complaint update
 router.delete("/:updateId", authMiddleware, async (req, res) => {
   try {
     const success = await ComplaintUpdateModel.delete(

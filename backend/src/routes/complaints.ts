@@ -17,6 +17,7 @@ const updateComplaintSchema = z.object({
   assigned_staff: z.string().optional(),
 });
 
+// Create a new complaint
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const complaintData = createComplaintSchema.parse(req.body);
@@ -31,6 +32,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
+// Get all complaints
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
@@ -53,6 +55,7 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
+// Get complaints by user ID
 router.get("/user/:userId", authMiddleware, async (req, res) => {
   try {
     const complaints = await ComplaintModel.findByUserId(req.params.userId);
@@ -62,6 +65,7 @@ router.get("/user/:userId", authMiddleware, async (req, res) => {
   }
 });
 
+// Get complaint by ID
 router.get("/:complaintId", authMiddleware, async (req, res) => {
   try {
     const complaint = await ComplaintModel.findById(
@@ -76,6 +80,7 @@ router.get("/:complaintId", authMiddleware, async (req, res) => {
   }
 });
 
+// Update a complaint
 router.patch("/:complaintId", authMiddleware, async (req, res) => {
   try {
     const updates = updateComplaintSchema.parse(req.body);
@@ -96,6 +101,7 @@ router.patch("/:complaintId", authMiddleware, async (req, res) => {
   }
 });
 
+// Delete a complaint
 router.delete("/:complaintId", authMiddleware, async (req, res) => {
   try {
     const success = await ComplaintModel.delete(Number(req.params.complaintId));
