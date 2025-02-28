@@ -192,7 +192,7 @@ export default function Sidebar() {
               {!isCollapsed && (
                 <div className="space-y-1">
                   <h2 className="text-lg font-semibold tracking-tight">
-                    {currentUser.role}
+                    {currentUser.full_name}
                   </h2>
                   <p className="text-sm text-muted-foreground">Welcome back!</p>
                 </div>
