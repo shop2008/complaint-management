@@ -183,8 +183,7 @@ export default function ComplaintDetail({
                 Close
               </Button>
             )}
-            {(currentUser?.role === "Admin" ||
-              currentUser?.user_id === complaint.user_id) && (
+            {currentUser?.user_id === complaint.user_id && (
               <Button
                 variant="destructive"
                 onClick={handleDeleteComplaint}

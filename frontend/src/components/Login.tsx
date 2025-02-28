@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -8,7 +8,26 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { signIn, currentUser } = useAuth();
+
+  useEffect(() => {
+    if (currentUser) {
+      switch (currentUser.role) {
+        case "Admin":
+          navigate("/users", { replace: true });
+          break;
+        case "Manager":
+          navigate("/manager", { replace: true });
+          break;
+        case "Staff":
+          navigate("/staff", { replace: true });
+          break;
+        case "Customer":
+          navigate("/submit-complaint", { replace: true });
+          break;
+      }
+    }
+  }, [currentUser, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

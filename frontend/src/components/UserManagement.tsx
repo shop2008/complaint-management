@@ -139,7 +139,7 @@ export default function UserManagement() {
 
         {/* Search */}
         <form onSubmit={handleSearch} className="mb-6">
-          <div className="flex space-x-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <input
               type="text"
               value={searchQuery}
@@ -149,15 +149,80 @@ export default function UserManagement() {
             />
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium"
             >
               Search
             </button>
           </div>
         </form>
 
-        {/* Users Table */}
-        <div className="bg-white shadow overflow-hidden rounded-lg">
+        {/* Mobile View */}
+        <div className="block lg:hidden">
+          <div className="space-y-4">
+            {users.map((user) => (
+              <div
+                key={user.user_id}
+                className="bg-white rounded-lg border border-gray-200 shadow-sm p-4 space-y-3"
+              >
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-gray-900">
+                    {user.full_name}
+                  </div>
+                  <div className="text-sm text-gray-600">{user.email}</div>
+                  <div className="text-sm text-gray-500">Role: {user.role}</div>
+                </div>
+
+                <div className="pt-2 border-t border-gray-100">
+                  <div className="flex flex-col space-y-2">
+                    <select
+                      value={user.role}
+                      onChange={(e) =>
+                        handleRoleUpdate(user.user_id, e.target.value)
+                      }
+                      className="w-full rounded-md border-gray-300 text-sm"
+                      disabled={
+                        user.user_id === currentUser?.user_id ||
+                        updatingRoles[user.user_id]
+                      }
+                    >
+                      <option value="Admin">Admin</option>
+                      <option value="Manager">Manager</option>
+                      <option value="Staff">Staff</option>
+                      <option value="Customer">Customer</option>
+                    </select>
+                    {updatingRoles[user.user_id] && (
+                      <div className="flex justify-center">
+                        <svg
+                          className="animate-spin h-5 w-5 text-blue-600"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Table View */}
+        <div className="hidden lg:block bg-white shadow overflow-hidden rounded-lg">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
@@ -236,23 +301,30 @@ export default function UserManagement() {
         </div>
 
         {/* Pagination */}
-        <div className="mt-4 flex justify-between items-center">
-          <div className="text-sm text-gray-700">
-            Showing {(page - 1) * pageSize + 1} to{" "}
-            {Math.min(page * pageSize, total)} of {total} results
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="w-full sm:w-auto">
+            <p className="text-sm text-center sm:text-left text-gray-700">
+              Showing{" "}
+              <span className="font-medium">{(page - 1) * pageSize + 1}</span>{" "}
+              to{" "}
+              <span className="font-medium">
+                {Math.min(page * pageSize, total)}
+              </span>{" "}
+              of <span className="font-medium">{total}</span> results
+            </p>
           </div>
-          <div className="flex space-x-2">
+          <div className="w-full sm:w-auto flex justify-center sm:justify-end gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-4 py-2 border rounded-md disabled:opacity-50"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px] justify-center"
             >
               Previous
             </button>
             <button
               onClick={() => setPage((p) => p + 1)}
               disabled={page * pageSize >= total}
-              className="px-4 py-2 border rounded-md disabled:opacity-50"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px] justify-center"
             >
               Next
             </button>

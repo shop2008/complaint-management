@@ -417,7 +417,103 @@ export default function CustomerDashboard() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200/75 overflow-hidden">
           <div className="p-6">
             <h2 className="text-2xl font-bold mb-6">My Complaints</h2>
-            <div className="overflow-x-auto">
+
+            {/* Mobile View */}
+            <div className="block lg:hidden">
+              <div className="space-y-4">
+                {userComplaints.map((complaint) => (
+                  <div
+                    key={complaint.complaint_id}
+                    className="bg-white rounded-lg border border-gray-200 shadow-sm p-4 space-y-3"
+                    onClick={() => handleViewDetails(complaint.complaint_id)}
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-1">
+                        <div className="text-sm font-medium text-gray-900">
+                          {complaint.category}
+                        </div>
+                      </div>
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          complaint.priority === "High"
+                            ? "bg-red-100 text-red-800"
+                            : complaint.priority === "Medium"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-green-100 text-green-800"
+                        }`}
+                      >
+                        {complaint.priority}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          complaint.status === "Pending"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : complaint.status === "In Progress"
+                            ? "bg-blue-100 text-blue-800"
+                            : complaint.status === "Resolved"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {complaint.status}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {new Date(complaint.created_at).toLocaleDateString()}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewDetails(complaint.complaint_id);
+                        }}
+                        className="text-blue-600 hover:text-blue-900 text-sm font-medium"
+                      >
+                        View Details
+                      </button>
+                      {complaint.status === "Resolved" && (
+                        <>
+                          {complaint.feedback ? (
+                            <div className="flex items-center gap-2">
+                              <span className="text-green-600">
+                                <span className="material-icons text-sm">
+                                  star
+                                </span>
+                              </span>
+                              <span className="text-green-600 text-sm">
+                                Rating: {complaint.feedback.rating}/5
+                              </span>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setFeedbackModal({
+                                  isOpen: true,
+                                  complaintId: complaint.complaint_id,
+                                  rating: 5,
+                                  comment: "",
+                                });
+                              }}
+                              className="text-blue-600 hover:text-blue-900 text-sm font-medium"
+                            >
+                              Give Feedback
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
