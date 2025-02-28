@@ -96,4 +96,18 @@ router.patch("/:complaintId", authMiddleware, async (req, res) => {
   }
 });
 
+router.delete("/:complaintId", authMiddleware, async (req, res) => {
+  try {
+    const success = await ComplaintModel.delete(Number(req.params.complaintId));
+    if (!success) {
+      return res
+        .status(404)
+        .json({ error: "Complaint not found or could not be deleted" });
+    }
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 export default router;

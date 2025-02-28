@@ -45,6 +45,17 @@ class ComplaintUpdateModel {
 
     return (updates[0] as ComplaintUpdate) || null;
   }
+
+  async delete(updateId: number): Promise<boolean> {
+    try {
+      await db.execute("DELETE FROM Complaint_Updates WHERE update_id = ?", [
+        updateId,
+      ]);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }
 
 export default new ComplaintUpdateModel();

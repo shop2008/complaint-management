@@ -45,4 +45,20 @@ router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
   }
 });
 
+router.delete("/:updateId", authMiddleware, async (req, res) => {
+  try {
+    const success = await ComplaintUpdateModel.delete(
+      Number(req.params.updateId)
+    );
+    if (!success) {
+      return res
+        .status(404)
+        .json({ error: "Update not found or could not be deleted" });
+    }
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 export default router;

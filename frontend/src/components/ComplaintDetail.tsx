@@ -27,6 +27,7 @@ export default function ComplaintDetail({
   const [newComment, setNewComment] = useState("");
   const [newStatus, setNewStatus] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchComplaintDetails();
@@ -88,6 +89,48 @@ export default function ComplaintDetail({
     }
   };
 
+  const handleDeleteComplaint = async () => {
+    if (!complaint || isDeleting) return;
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this complaint? This action cannot be undone."
+      )
+    )
+      return;
+
+    try {
+      setIsDeleting(true);
+      await complaintsApi.deleteComplaint(complaintId);
+      if (onClose) onClose();
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to delete complaint"
+      );
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleDeleteUpdate = async (updateId: number) => {
+    if (isDeleting) return;
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this update? This action cannot be undone."
+      )
+    )
+      return;
+
+    try {
+      setIsDeleting(true);
+      await complaintsApi.deleteComplaintUpdate(updateId);
+      await fetchComplaintDetails();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to delete update");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -134,11 +177,23 @@ export default function ComplaintDetail({
           <h1 className="text-xl sm:text-2xl font-semibold">
             Complaint #{complaintId}
           </h1>
-          {onClose && (
-            <Button variant="outline" onClick={onClose}>
-              Back
-            </Button>
-          )}
+          <div className="flex gap-2">
+            {onClose && (
+              <Button variant="outline" onClick={onClose}>
+                Close
+              </Button>
+            )}
+            {(currentUser?.role === "Admin" ||
+              currentUser?.user_id === complaint.user_id) && (
+              <Button
+                variant="destructive"
+                onClick={handleDeleteComplaint}
+                disabled={isDeleting}
+              >
+                Delete Complaint
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-6 gap-4 sm:gap-6">
@@ -310,9 +365,27 @@ export default function ComplaintDetail({
                             </span>
                           )}
                         </div>
-                        <span className="text-sm text-muted-foreground">
-                          {new Date(update.updated_at).toLocaleString()}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-muted-foreground">
+                            {new Date(update.updated_at).toLocaleString()}
+                          </span>
+                          {(currentUser?.role === "Admin" ||
+                            currentUser?.user_id === update.updated_by) && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() =>
+                                handleDeleteUpdate(update.update_id)
+                              }
+                              disabled={isDeleting}
+                              className="h-8 w-8"
+                            >
+                              <span className="material-icons text-destructive text-sm">
+                                delete
+                              </span>
+                            </Button>
+                          )}
+                        </div>
                       </div>
                       <div className="pl-6">
                         <p className="text-sm">{update.comment}</p>

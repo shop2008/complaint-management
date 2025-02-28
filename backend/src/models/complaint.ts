@@ -134,6 +134,17 @@ class ComplaintModel {
 
     return this.findById(complaintId);
   }
+
+  async delete(complaintId: number): Promise<boolean> {
+    try {
+      await db.execute("DELETE FROM Complaints WHERE complaint_id = ?", [
+        complaintId,
+      ]);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }
 
 export default new ComplaintModel();

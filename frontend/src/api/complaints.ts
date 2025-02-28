@@ -188,6 +188,22 @@ const complaintsApi = {
     );
     return response.data;
   },
+
+  /**
+   * Delete a complaint
+   * @param complaintId - The ID of the complaint to delete
+   */
+  async deleteComplaint(complaintId: number) {
+    await axios.delete(`${API_BASE_URL}/complaints/${complaintId}`);
+  },
+
+  /**
+   * Delete a complaint update
+   * @param updateId - The ID of the update to delete
+   */
+  async deleteComplaintUpdate(updateId: number) {
+    await axios.delete(`${API_BASE_URL}/updates/${updateId}`);
+  },
 };
 
 export default complaintsApi;
