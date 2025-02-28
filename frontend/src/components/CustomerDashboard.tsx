@@ -548,7 +548,7 @@ export default function CustomerDashboard() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                             complaint.status === "Pending"
                               ? "bg-yellow-100 text-yellow-800"
                               : complaint.status === "In Progress"

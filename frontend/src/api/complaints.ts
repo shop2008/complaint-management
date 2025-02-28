@@ -105,7 +105,10 @@ const complaintsApi = {
     status: string;
     comment: string;
   }) {
-    const response = await axios.post(`${API_BASE_URL}/updates`, data);
+    const response = await axios.post(
+      `${API_BASE_URL}/complaint-updates`,
+      data
+    );
     return response.data;
   },
 
@@ -114,7 +117,7 @@ const complaintsApi = {
    */
   async getComplaintUpdates(complaintId: number) {
     const response = await axios.get(
-      `${API_BASE_URL}/updates/complaint/${complaintId}`
+      `${API_BASE_URL}/complaint-updates/complaint/${complaintId}`
     );
     return response.data;
   },
@@ -182,7 +185,7 @@ const complaintsApi = {
    * @param updateId - The ID of the update to delete
    */
   async deleteComplaintUpdate(updateId: number) {
-    await axios.delete(`${API_BASE_URL}/updates/${updateId}`);
+    await axios.delete(`${API_BASE_URL}/complaint-updates/${updateId}`);
   },
 };
 

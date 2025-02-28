@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { requestLogger } from "./middleware/logger";
+import { apiLimiter, authLimiter } from "./middleware/rateLimit";
 import usersRouter from "./routes/users";
 import complaintsRouter from "./routes/complaints";
 import feedbackRouter from "./routes/feedback";
@@ -19,12 +20,21 @@ app.use(express.json());
 // Add the logger middleware before the routes
 app.use(requestLogger);
 
-app.use("/api/users", usersRouter);
+// Apply rate limiting to all routes
+app.use("/api/", apiLimiter);
+
+// Apply specific rate limits to routes
+app.use("/api/users/register", authLimiter);
+app.use("/api/users/login", authLimiter);
+
+// Apply routes
 app.use("/api/complaints", complaintsRouter);
 app.use("/api/feedback", feedbackRouter);
-app.use("/api/updates", complaintUpdatesRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/complaint-updates", complaintUpdatesRouter);
 app.use("/api/attachments", attachmentsRouter);
 
+// Error handling middleware
 app.use(
   (
     err: Error,
