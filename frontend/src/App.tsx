@@ -21,6 +21,7 @@ import Sidebar from "./components/Sidebar";
 import { useAuth } from "./contexts/AuthContext";
 import { useSidebar } from "./contexts/SidebarContext";
 import ComplaintDetail from "./components/ComplaintDetail";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { currentUser } = useAuth();
@@ -135,14 +136,18 @@ function App() {
 }
 
 function ComplaintDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const handleClose = () => {
-    navigate(-1);
+    navigate(-1); // Go back to the previous page
   };
 
-  return <ComplaintDetail complaintId={Number(id)} onClose={handleClose} />;
+  return (
+    <ErrorBoundary>
+      <ComplaintDetail complaintId={Number(id)} onClose={handleClose} />
+    </ErrorBoundary>
+  );
 }
 
 export default App;

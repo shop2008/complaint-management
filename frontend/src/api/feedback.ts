@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "./axiosConfig";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
@@ -12,7 +12,7 @@ const feedbackApi = {
     rating: number;
     comments?: string;
   }) {
-    const response = await axios.post(`${API_BASE_URL}/feedback`, data);
+    const response = await axiosInstance.post(`${API_BASE_URL}/feedback`, data);
     return response.data;
   },
 
@@ -20,7 +20,7 @@ const feedbackApi = {
    * Get feedback by complaint ID
    */
   async getFeedbackByComplaintId(complaintId: number) {
-    const response = await axios.get(
+    const response = await axiosInstance.get(
       `${API_BASE_URL}/feedback/complaint/${complaintId}`
     );
     return response.data;

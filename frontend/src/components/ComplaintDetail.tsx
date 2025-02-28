@@ -52,10 +52,13 @@ export default function ComplaintDetail({
         complaintId
       );
       setAttachments(attachmentsData || []);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to fetch complaint details"
-      );
+    } catch (err: any) {
+      // Extract error message from Axios error or use fallback
+      const errorMessage =
+        err.response?.data?.error ||
+        err.message ||
+        "Failed to fetch complaint details";
+      setError(errorMessage);
       setComplaint(null);
       setUpdates([]);
       setAttachments([]);
@@ -80,10 +83,12 @@ export default function ComplaintDetail({
       // Refresh the complaint details after update
       await fetchComplaintDetails();
       setNewComment("");
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to update complaint"
-      );
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.error ||
+        err.message ||
+        "Failed to update complaint";
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -102,10 +107,12 @@ export default function ComplaintDetail({
       setIsDeleting(true);
       await complaintsApi.deleteComplaint(complaintId);
       if (onClose) onClose();
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to delete complaint"
-      );
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.error ||
+        err.message ||
+        "Failed to delete complaint";
+      setError(errorMessage);
     } finally {
       setIsDeleting(false);
     }
@@ -124,8 +131,10 @@ export default function ComplaintDetail({
       setIsDeleting(true);
       await complaintsApi.deleteComplaintUpdate(updateId);
       await fetchComplaintDetails();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete update");
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.error || err.message || "Failed to delete update";
+      setError(errorMessage);
     } finally {
       setIsDeleting(false);
     }

@@ -1,8 +1,8 @@
-import axios from "axios";
 import {
   ComplaintPriority,
   CreateAttachmentDto,
 } from "../types/complaint.types";
+import axiosInstance from "./axiosConfig";
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
 
@@ -20,7 +20,10 @@ const complaintsApi = {
    * @returns The created complaint
    */
   async createComplaint(data: CreateComplaintDto) {
-    const response = await axios.post(`${API_BASE_URL}/complaints`, data);
+    const response = await axiosInstance.post(
+      `${API_BASE_URL}/complaints`,
+      data
+    );
     return response.data;
   },
 
@@ -50,7 +53,9 @@ const complaintsApi = {
       }),
     });
 
-    const response = await axios.get(`${API_BASE_URL}/complaints?${params}`);
+    const response = await axiosInstance.get(
+      `${API_BASE_URL}/complaints?${params}`
+    );
     return response.data;
   },
 
@@ -60,14 +65,14 @@ const complaintsApi = {
    * @returns The complaints
    */
   async getUserComplaints(userId: string) {
-    const response = await axios.get(
+    const response = await axiosInstance.get(
       `${API_BASE_URL}/complaints/user/${userId}`
     );
     return response.data;
   },
 
   async getComplaintById(complaintId: number) {
-    const response = await axios.get(
+    const response = await axiosInstance.get(
       `${API_BASE_URL}/complaints/${complaintId}`
     );
     return response.data;
@@ -87,7 +92,7 @@ const complaintsApi = {
       assigned_staff?: string;
     }
   ) {
-    const response = await axios.patch(
+    const response = await axiosInstance.patch(
       `${API_BASE_URL}/complaints/${complaintId}`,
       data
     );
@@ -105,7 +110,7 @@ const complaintsApi = {
     status: string;
     comment: string;
   }) {
-    const response = await axios.post(
+    const response = await axiosInstance.post(
       `${API_BASE_URL}/complaint-updates`,
       data
     );
@@ -116,7 +121,7 @@ const complaintsApi = {
    * Get updates for a complaint
    */
   async getComplaintUpdates(complaintId: number) {
-    const response = await axios.get(
+    const response = await axiosInstance.get(
       `${API_BASE_URL}/complaint-updates/complaint/${complaintId}`
     );
     return response.data;
@@ -126,7 +131,7 @@ const complaintsApi = {
    * Get feedback for a complaint
    */
   async getComplaintFeedback(complaintId: number) {
-    const response = await axios.get(
+    const response = await axiosInstance.get(
       `${API_BASE_URL}/feedback/complaint/${complaintId}`
     );
     return response.data;
@@ -144,7 +149,7 @@ const complaintsApi = {
     rating: number;
     comment: string;
   }) {
-    const response = await axios.post(`${API_BASE_URL}/feedback`, {
+    const response = await axiosInstance.post(`${API_BASE_URL}/feedback`, {
       complaint_id,
       rating,
       comments: comment,
@@ -156,7 +161,10 @@ const complaintsApi = {
    * Create a new attachment for a complaint
    */
   async createAttachment(data: CreateAttachmentDto) {
-    const response = await axios.post(`${API_BASE_URL}/attachments`, data);
+    const response = await axiosInstance.post(
+      `${API_BASE_URL}/attachments`,
+      data
+    );
     return response.data;
   },
 
@@ -166,7 +174,7 @@ const complaintsApi = {
    * @returns The attachments for the complaint
    */
   async getComplaintAttachments(complaintId: number) {
-    const response = await axios.get(
+    const response = await axiosInstance.get(
       `${API_BASE_URL}/attachments/complaint/${complaintId}`
     );
     return response.data;
@@ -177,7 +185,7 @@ const complaintsApi = {
    * @param complaintId - The ID of the complaint to delete
    */
   async deleteComplaint(complaintId: number) {
-    await axios.delete(`${API_BASE_URL}/complaints/${complaintId}`);
+    await axiosInstance.delete(`${API_BASE_URL}/complaints/${complaintId}`);
   },
 
   /**
@@ -185,7 +193,7 @@ const complaintsApi = {
    * @param updateId - The ID of the update to delete
    */
   async deleteComplaintUpdate(updateId: number) {
-    await axios.delete(`${API_BASE_URL}/complaint-updates/${updateId}`);
+    await axiosInstance.delete(`${API_BASE_URL}/complaint-updates/${updateId}`);
   },
 };
 

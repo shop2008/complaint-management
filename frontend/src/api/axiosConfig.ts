@@ -19,15 +19,50 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Add response interceptor to handle 401 errors
+// Add response interceptor to handle errors
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // Clear token and redirect to login
-      // localStorage.removeItem("token");
+    let errorMessage = "Something went wrong. Please try again later.";
+
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      switch (error.response.status) {
+        case 400:
+          errorMessage = error.response.data.error || "Invalid request";
+          break;
+        case 401:
+          errorMessage = "Please login to continue";
+          // Clear token and redirect to login if needed
+          localStorage.removeItem("token");
+          window.location.href = "/login";
+          break;
+        case 403:
+          errorMessage = "You don't have permission to perform this action";
+          break;
+        case 404:
+          errorMessage = "The requested resource was not found";
+          break;
+        case 429:
+          errorMessage = "Too many requests. Please try again later.";
+          break;
+        case 500:
+          errorMessage = "Server error. Please try again later.";
+          break;
+        default:
+          errorMessage = error.response.data.error || "An error occurred";
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+      errorMessage =
+        "No response from server. Please check your internet connection.";
     }
-    return Promise.reject(error);
+
+    // Create a custom error object with the message
+    const customError = new Error(errorMessage);
+    customError.message = error.response;
+    return Promise.reject(customError);
   }
 );
 
