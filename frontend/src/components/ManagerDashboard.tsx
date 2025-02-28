@@ -20,11 +20,27 @@ export default function ManagerDashboard() {
   const [selectedStaffMap, setSelectedStaffMap] = useState<
     Record<number, string>
   >({});
+  const [assigningStaff, setAssigningStaff] = useState<Record<number, boolean>>(
+    {}
+  );
   const [statusFilter, setStatusFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
   const [selectedComplaintId, setSelectedComplaintId] = useState<number | null>(
     null
   );
+  const [feedback, setFeedback] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (feedback) {
+      const timer = setTimeout(() => {
+        setFeedback(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [feedback]);
 
   useEffect(() => {
     fetchComplaints();
@@ -68,39 +84,29 @@ export default function ManagerDashboard() {
     }
   };
 
-  const handleStatusUpdate = async (complaintId: number, newStatus: string) => {
-    try {
-      await complaintsApi.createComplaintUpdate({
-        complaint_id: complaintId,
-        updated_by: currentUser!.user_id,
-        status: newStatus as ComplaintStatus,
-        comment: `Status updated to ${newStatus}`,
-      });
-      // update the complaint status in the complaints array
-      setComplaints(
-        complaints.map((complaint) =>
-          complaint.complaint_id === complaintId
-            ? { ...complaint, status: newStatus as ComplaintStatus }
-            : complaint
-        )
-      );
-    } catch (error) {
-      console.error("Error updating status:", error);
-      alert("Error updating status");
-    }
-  };
-
   const handleAssignStaff = async (complaintId: number) => {
     const selectedStaff = selectedStaffMap[complaintId];
-    if (!selectedStaff) return;
+    if (!selectedStaff) {
+      setFeedback({
+        type: "error",
+        message: "Please select a staff member first",
+      });
+      return;
+    }
 
     try {
+      setAssigningStaff((prev) => ({ ...prev, [complaintId]: true }));
       await complaintsApi.updateComplaint(complaintId, {
         assigned_staff: selectedStaff,
       });
+      setFeedback({ type: "success", message: "Staff assigned successfully" });
+      // Refresh the complaints list to show updated assignment
+      fetchComplaints();
     } catch (error) {
       console.error("Error assigning staff:", error);
-      alert("Error assigning staff");
+      setFeedback({ type: "error", message: "Failed to assign staff member" });
+    } finally {
+      setAssigningStaff((prev) => ({ ...prev, [complaintId]: false }));
     }
   };
 
@@ -144,6 +150,44 @@ export default function ManagerDashboard() {
 
   return (
     <div className="space-y-8">
+      {feedback && (
+        <div
+          className={`fixed top-4 right-4 z-50 p-4 rounded-md shadow-lg ${
+            feedback.type === "success"
+              ? "bg-green-50 text-green-800 border border-green-200"
+              : "bg-red-50 text-red-800 border border-red-200"
+          }`}
+        >
+          <div className="flex items-center">
+            {feedback.type === "success" ? (
+              <svg
+                className="h-5 w-5 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="h-5 w-5 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            )}
+            {feedback.message}
+          </div>
+        </div>
+      )}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200/75 overflow-hidden">
         <div className="p-6">
           <h2 className="text-2xl font-bold mb-6">Complaint Management</h2>
@@ -286,9 +330,36 @@ export default function ManagerDashboard() {
                             e.stopPropagation();
                             handleAssignStaff(complaint.complaint_id);
                           }}
-                          className="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+                          disabled={assigningStaff[complaint.complaint_id]}
+                          className="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md disabled:bg-blue-400 disabled:cursor-not-allowed"
                         >
-                          Assign
+                          {assigningStaff[complaint.complaint_id] ? (
+                            <>
+                              <svg
+                                className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <circle
+                                  className="opacity-25"
+                                  cx="12"
+                                  cy="12"
+                                  r="10"
+                                  stroke="currentColor"
+                                  strokeWidth="4"
+                                ></circle>
+                                <path
+                                  className="opacity-75"
+                                  fill="currentColor"
+                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                ></path>
+                              </svg>
+                              Assigning...
+                            </>
+                          ) : (
+                            "Assign"
+                          )}
                         </button>
                       </div>
                     </td>

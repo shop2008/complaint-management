@@ -7,11 +7,27 @@ export default function UserManagement() {
   const { currentUser } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [updatingRoles, setUpdatingRoles] = useState<Record<string, boolean>>(
+    {}
+  );
   const [error, setError] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
   const [total, setTotal] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (feedback) {
+      const timer = setTimeout(() => {
+        setFeedback(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [feedback]);
 
   useEffect(() => {
     fetchUsers();
@@ -33,6 +49,7 @@ export default function UserManagement() {
 
   const handleRoleUpdate = async (userId: string, newRole: string) => {
     try {
+      setUpdatingRoles((prev) => ({ ...prev, [userId]: true }));
       await usersApi.updateUserRole(userId, newRole as UserRole);
       // Update local state
       setUsers(
@@ -42,9 +59,15 @@ export default function UserManagement() {
             : user
         )
       );
+      setFeedback({
+        type: "success",
+        message: "User role updated successfully",
+      });
     } catch (error) {
       console.error("Error updating role:", error);
-      alert("Error updating role");
+      setFeedback({ type: "error", message: "Failed to update user role" });
+    } finally {
+      setUpdatingRoles((prev) => ({ ...prev, [userId]: false }));
     }
   };
 
@@ -71,6 +94,44 @@ export default function UserManagement() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
+      {feedback && (
+        <div
+          className={`fixed top-4 right-4 z-50 p-4 rounded-md shadow-lg ${
+            feedback.type === "success"
+              ? "bg-green-50 text-green-800 border border-green-200"
+              : "bg-red-50 text-red-800 border border-red-200"
+          }`}
+        >
+          <div className="flex items-center">
+            {feedback.type === "success" ? (
+              <svg
+                className="h-5 w-5 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="h-5 w-5 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            )}
+            {feedback.message}
+          </div>
+        </div>
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-2xl font-semibold text-gray-900 mb-6">
           User Management
@@ -127,19 +188,46 @@ export default function UserManagement() {
                     {user.role}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <select
-                      value={user.role}
-                      onChange={(e) =>
-                        handleRoleUpdate(user.user_id, e.target.value)
-                      }
-                      className="rounded-md border-gray-300 text-sm"
-                      disabled={user.user_id === currentUser?.user_id}
-                    >
-                      <option value="Admin">Admin</option>
-                      <option value="Manager">Manager</option>
-                      <option value="Staff">Staff</option>
-                      <option value="Customer">Customer</option>
-                    </select>
+                    <div className="flex items-center space-x-2">
+                      <select
+                        value={user.role}
+                        onChange={(e) =>
+                          handleRoleUpdate(user.user_id, e.target.value)
+                        }
+                        className="rounded-md border-gray-300 text-sm"
+                        disabled={
+                          user.user_id === currentUser?.user_id ||
+                          updatingRoles[user.user_id]
+                        }
+                      >
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Staff">Staff</option>
+                        <option value="Customer">Customer</option>
+                      </select>
+                      {updatingRoles[user.user_id] && (
+                        <svg
+                          className="animate-spin h-5 w-5 text-blue-600"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
