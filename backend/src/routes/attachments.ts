@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { z } from "zod";
-import AttachmentModel from "../models/attachment";
 import { authMiddleware } from "../middleware/auth";
+import { createSuccessResponse } from "../middleware/errorHandler";
+import AttachmentModel from "../models/attachment";
+import { HttpStatus } from "../types/api.types";
 
 const router = Router();
 
@@ -11,29 +13,33 @@ const createAttachmentSchema = z.object({
 });
 
 // Create an attachment
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware, async (req, res, next) => {
   try {
     const attachmentData = createAttachmentSchema.parse(req.body);
     const attachment = await AttachmentModel.create(attachmentData);
-    res.status(201).json(attachment);
+    res
+      .status(HttpStatus.CREATED)
+      .json(
+        createSuccessResponse(attachment, "Attachment created successfully")
+      );
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
-    } else {
-      res.status(500).json({ error: "Internal server error" });
-    }
+    next(error);
   }
 });
 
 // Get complaint attachments
-router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
+router.get("/:complaintId", authMiddleware, async (req, res, next) => {
   try {
     const attachments = await AttachmentModel.findByComplaintId(
       Number(req.params.complaintId)
     );
-    res.json(attachments);
+    res
+      .status(HttpStatus.OK)
+      .json(
+        createSuccessResponse(attachments, "Attachments fetched successfully")
+      );
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    next(error);
   }
 });
 

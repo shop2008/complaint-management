@@ -1,5 +1,6 @@
 import axiosInstance from "./axiosConfig";
 import { User, UserRole } from "../types/user.types";
+import { ApiResponse } from "../types/api.types";
 
 export interface AuthResponse {
   user: User;
@@ -18,8 +19,11 @@ const usersApi = {
     email: string;
     role?: UserRole;
   }): Promise<User> {
-    const response = await axiosInstance.post("/users/register", data);
-    return response.data;
+    const response = await axiosInstance.post<ApiResponse<User>>(
+      "/users/register",
+      data
+    );
+    return response.data.data as User;
   },
 
   /**
@@ -27,8 +31,8 @@ const usersApi = {
    * @returns The user profile
    */
   async getCurrentUser(): Promise<User> {
-    const response = await axiosInstance.get("/users/me");
-    return response.data;
+    const response = await axiosInstance.get<ApiResponse<User>>("/users/me");
+    return response.data.data as User;
   },
 
   /**
@@ -36,8 +40,10 @@ const usersApi = {
    * @returns The staff members
    */
   async getStaffMembers(): Promise<User[]> {
-    const response = await axiosInstance.get("/users/staff");
-    return response.data;
+    const response = await axiosInstance.get<ApiResponse<User[]>>(
+      "/users/staff"
+    );
+    return response.data.data as User[];
   },
 
   /**
@@ -46,8 +52,10 @@ const usersApi = {
    * @returns The user
    */
   async getUserById(userId: string): Promise<User> {
-    const response = await axiosInstance.get(`/users/${userId}`);
-    return response.data;
+    const response = await axiosInstance.get<ApiResponse<User>>(
+      `/users/${userId}`
+    );
+    return response.data.data as User;
   },
 
   /**
@@ -67,8 +75,10 @@ const usersApi = {
       pageSize: pageSize.toString(),
       ...(search && { search }),
     });
-    const response = await axiosInstance.get(`/users?${params}`);
-    return response.data;
+    const response = await axiosInstance.get<
+      ApiResponse<{ users: User[]; total: number }>
+    >(`/users?${params}`);
+    return response.data.data as { users: User[]; total: number };
   },
 
   /**
@@ -78,10 +88,13 @@ const usersApi = {
    * @returns The updated user
    */
   async updateUserRole(userId: string, role: UserRole): Promise<User> {
-    const response = await axiosInstance.patch(`/users/${userId}/role`, {
-      role,
-    });
-    return response.data;
+    const response = await axiosInstance.patch<ApiResponse<User>>(
+      `/users/${userId}/role`,
+      {
+        role,
+      }
+    );
+    return response.data.data as User;
   },
 };
 

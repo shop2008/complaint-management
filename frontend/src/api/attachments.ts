@@ -1,28 +1,26 @@
 import axiosInstance from "./axiosConfig";
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+import { ApiResponse } from "../types/api.types";
 
 const attachmentsApi = {
   /**
    * Create an attachment for a complaint
    */
   async createAttachment(data: { complaint_id: number; file_url: string }) {
-    const response = await axiosInstance.post(
-      `${API_BASE_URL}/attachments`,
+    const response = await axiosInstance.post<ApiResponse>(
+      `/attachments`,
       data
     );
-    return response.data;
+    return response.data.data;
   },
 
   /**
    * Get complaint attachments
    */
   async getComplaintAttachments(complaintId: number) {
-    const response = await axiosInstance.get(
-      `${API_BASE_URL}/attachments/complaint/${complaintId}`
+    const response = await axiosInstance.get<ApiResponse>(
+      `/attachments/${complaintId}`
     );
-    return response.data;
+    return response.data.data;
   },
 };
 

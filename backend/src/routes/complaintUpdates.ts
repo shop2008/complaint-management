@@ -1,8 +1,13 @@
 import { Router } from "express";
 import { z } from "zod";
-import ComplaintUpdateModel from "../models/complaintUpdate";
-import ComplaintModel from "../models/complaint";
 import { authMiddleware } from "../middleware/auth";
+import {
+  createErrorResponse,
+  createSuccessResponse,
+} from "../middleware/errorHandler";
+import ComplaintModel from "../models/complaint";
+import ComplaintUpdateModel from "../models/complaintUpdate";
+import { AppError, ErrorCode, HttpStatus } from "../types/api.types";
 const router = Router();
 
 const createUpdateSchema = z.object({
@@ -13,7 +18,7 @@ const createUpdateSchema = z.object({
 });
 
 // Create a new complaint update
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware, async (req, res, next) => {
   try {
     const updateData = createUpdateSchema.parse(req.body);
 
@@ -25,42 +30,56 @@ router.post("/", authMiddleware, async (req, res) => {
       status: updateData.status,
     });
 
-    res.status(201).json(update);
+    res
+      .status(HttpStatus.CREATED)
+      .json(
+        createSuccessResponse(update, "Complaint update created successfully")
+      );
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
-    } else {
-      res.status(500).json({ error: "Internal server error" });
-    }
+    next(error);
   }
 });
 
 // Get complaint updates by complaint ID
-router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
+router.get("/:complaintId", authMiddleware, async (req, res, next) => {
   try {
     const updates = await ComplaintUpdateModel.findByComplaintId(
       Number(req.params.complaintId)
     );
-    res.json(updates);
+    res
+      .status(HttpStatus.OK)
+      .json(
+        createSuccessResponse(updates, "Complaint updates fetched successfully")
+      );
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    next(error);
   }
 });
 
 // Delete a complaint update
-router.delete("/:updateId", authMiddleware, async (req, res) => {
+router.delete("/:updateId", authMiddleware, async (req, res, next) => {
   try {
     const success = await ComplaintUpdateModel.delete(
       Number(req.params.updateId)
     );
     if (!success) {
       return res
-        .status(404)
-        .json({ error: "Update not found or could not be deleted" });
+        .status(HttpStatus.NOT_FOUND)
+        .json(
+          createErrorResponse(
+            "Update not found or could not be deleted",
+            "Update not found or could not be deleted",
+            HttpStatus.NOT_FOUND
+          )
+        );
     }
-    res.status(204).send();
+    res
+      .status(HttpStatus.OK)
+      .json(
+        createSuccessResponse(null, "Complaint update deleted successfully")
+      );
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    next(error);
   }
 });
 

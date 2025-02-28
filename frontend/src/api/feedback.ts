@@ -1,7 +1,5 @@
 import axiosInstance from "./axiosConfig";
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+import { ApiResponse } from "../types/api.types";
 
 const feedbackApi = {
   /**
@@ -12,18 +10,18 @@ const feedbackApi = {
     rating: number;
     comments?: string;
   }) {
-    const response = await axiosInstance.post(`${API_BASE_URL}/feedback`, data);
-    return response.data;
+    const response = await axiosInstance.post<ApiResponse>(`/feedback`, data);
+    return response.data.data;
   },
 
   /**
    * Get feedback by complaint ID
    */
   async getFeedbackByComplaintId(complaintId: number) {
-    const response = await axiosInstance.get(
-      `${API_BASE_URL}/feedback/complaint/${complaintId}`
+    const response = await axiosInstance.get<ApiResponse>(
+      `/feedback/${complaintId}`
     );
-    return response.data;
+    return response.data.data;
   },
 };
 

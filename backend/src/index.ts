@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { requestLogger } from "./middleware/logger";
 import { apiLimiter, authLimiter } from "./middleware/rateLimit";
+import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
 import usersRouter from "./routes/users";
 import complaintsRouter from "./routes/complaints";
 import feedbackRouter from "./routes/feedback";
@@ -34,18 +35,11 @@ app.use("/api/users", usersRouter);
 app.use("/api/complaint-updates", complaintUpdatesRouter);
 app.use("/api/attachments", attachmentsRouter);
 
-// Error handling middleware
-app.use(
-  (
-    err: Error,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    console.error(err.stack);
-    res.status(500).json({ error: "Something broke!" });
-  }
-);
+// 404 handler for undefined routes
+app.use(notFoundHandler);
+
+// Global error handling middleware
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

@@ -2,6 +2,11 @@ import { Router } from "express";
 import { z } from "zod";
 import FeedbackModel from "../models/feedback";
 import { authMiddleware } from "../middleware/auth";
+import {
+  createErrorResponse,
+  createSuccessResponse,
+} from "../middleware/errorHandler";
+import { AppError, ErrorCode, HttpStatus } from "../types/api.types";
 const router = Router();
 
 const createFeedbackSchema = z.object({
@@ -11,32 +16,40 @@ const createFeedbackSchema = z.object({
 });
 
 // Create feedback
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware, async (req, res, next) => {
   try {
     const feedbackData = createFeedbackSchema.parse(req.body);
     const feedback = await FeedbackModel.create(feedbackData);
-    res.status(201).json(feedback);
+    res
+      .status(HttpStatus.CREATED)
+      .json(createSuccessResponse(feedback, "Feedback created successfully"));
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
-    } else {
-      res.status(500).json({ error: "Internal server error" });
-    }
+    next(error);
   }
 });
 
 // Get feedback by complaint ID
-router.get("/complaint/:complaintId", authMiddleware, async (req, res) => {
+router.get("/:complaintId", authMiddleware, async (req, res, next) => {
   try {
     const feedback = await FeedbackModel.findByComplaintId(
       Number(req.params.complaintId)
     );
     if (!feedback) {
-      return res.status(404).json({ error: "Feedback not found" });
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .json(
+          createErrorResponse(
+            "Feedback not found",
+            "Feedback not found",
+            HttpStatus.NOT_FOUND
+          )
+        );
     }
-    res.json(feedback);
+    res
+      .status(HttpStatus.OK)
+      .json(createSuccessResponse(feedback, "Feedback fetched successfully"));
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    next(error);
   }
 });
 
