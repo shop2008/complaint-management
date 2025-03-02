@@ -367,11 +367,11 @@ export default function ComplaintDetail({
                           <span className="text-sm font-medium">
                             {update.updated_by_name}
                           </span>
-                          {update.updated_by === complaint?.assigned_staff && (
+                          {/* {update.updated_by === complaint?.assigned_staff && (
                             <span className="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
                               Assigned Staff
                             </span>
-                          )}
+                          )} */}
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-sm text-muted-foreground">
