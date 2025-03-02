@@ -52,29 +52,19 @@ class UserModel {
 
   async findAll(
     page: number,
-    pageSize: number,
-    search?: string
+    pageSize: number
   ): Promise<{ users: User[]; total: number }> {
     const offset = (page - 1) * pageSize;
-    const searchCondition = search
-      ? "WHERE full_name LIKE ? OR email LIKE ?"
-      : "";
-    const searchValue = search ? `%${search}%` : "";
-    const values = search
-      ? [searchValue, searchValue, pageSize, offset]
-      : [pageSize, offset];
 
     const [users] = await db.execute<RowDataPacket[]>(
-      `SELECT * FROM Users ${searchCondition} 
+      `SELECT * FROM Users 
        ORDER BY created_at DESC LIMIT ${Number(pageSize)} OFFSET ${Number(
         offset
-      )}`,
-      values
+      )}`
     );
 
     const [totalResult] = await db.execute<RowDataPacket[]>(
-      `SELECT COUNT(*) as total FROM Users ${searchCondition}`,
-      search ? [searchValue, searchValue] : []
+      `SELECT COUNT(*) as total FROM Users`
     );
 
     return {

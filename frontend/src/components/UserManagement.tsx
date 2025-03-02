@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useEffect, useState } from "react";
 import usersApi from "../api/users";
+import { useAuth } from "../contexts/AuthContext";
 import { User, UserRole } from "../types/user.types";
 
 export default function UserManagement() {
@@ -18,7 +18,6 @@ export default function UserManagement() {
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
   const [total, setTotal] = useState(0);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (feedback) {
@@ -36,7 +35,7 @@ export default function UserManagement() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const data = await usersApi.getAllUsers(page, pageSize, searchQuery);
+      const data = await usersApi.getAllUsers(page, pageSize);
       setUsers(data.users);
       setTotal(data.total);
     } catch (err) {
@@ -69,11 +68,6 @@ export default function UserManagement() {
     } finally {
       setUpdatingRoles((prev) => ({ ...prev, [userId]: false }));
     }
-  };
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetchUsers();
   };
 
   if (loading) {
@@ -136,25 +130,6 @@ export default function UserManagement() {
         <h1 className="text-2xl font-semibold text-gray-900 mb-6">
           User Management
         </h1>
-
-        {/* Search */}
-        <form onSubmit={handleSearch} className="mb-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search users..."
-              className="flex-1 px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            />
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium"
-            >
-              Search
-            </button>
-          </div>
-        </form>
 
         {/* Mobile View */}
         <div className="block lg:hidden">

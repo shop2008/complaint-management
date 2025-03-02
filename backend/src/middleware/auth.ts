@@ -1,5 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import { firebaseAdmin } from "../config/firebase";
+import { HttpStatus } from "../types/api.types";
+import { createErrorResponse } from "./errorHandler";
 
 export interface AuthRequest extends Request {
   user?: {
@@ -16,7 +18,15 @@ export const authMiddleware = async (
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader?.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "No token provided" });
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json(
+          createErrorResponse(
+            "No token provided",
+            "No token provided",
+            HttpStatus.UNAUTHORIZED
+          )
+        );
     }
 
     const idToken = authHeader.split("Bearer ")[1];
@@ -30,10 +40,26 @@ export const authMiddleware = async (
       next();
     } catch (error) {
       console.error("Token verification failed:", error);
-      return res.status(401).json({ error: "Invalid token" });
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json(
+          createErrorResponse(
+            "Invalid token",
+            "Invalid token",
+            HttpStatus.UNAUTHORIZED
+          )
+        );
     }
   } catch (error) {
     console.error("Auth error:", error);
-    res.status(401).json({ error: "Invalid token" });
+    res
+      .status(HttpStatus.UNAUTHORIZED)
+      .json(
+        createErrorResponse(
+          "Invalid token",
+          "Invalid token",
+          HttpStatus.UNAUTHORIZED
+        )
+      );
   }
 };

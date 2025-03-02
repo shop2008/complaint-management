@@ -1,12 +1,14 @@
 import { Router } from "express";
 import { z } from "zod";
+import logger from "../config/logger";
 import { authMiddleware, AuthRequest } from "../middleware/auth";
 import {
   createErrorResponse,
   createSuccessResponse,
 } from "../middleware/errorHandler";
 import UserModel from "../models/user";
-import { AppError, ErrorCode, HttpStatus } from "../types/api.types";
+import { HttpStatus } from "../types/api.types";
+import { ErrorTracker } from "../utils/errorTracker";
 const router = Router();
 
 const createUserSchema = z.object({
@@ -18,6 +20,11 @@ const createUserSchema = z.object({
 
 const updateRoleSchema = z.object({
   role: z.enum(["Admin", "Manager", "Staff", "Customer"]),
+});
+
+const updateUserSchema = z.object({
+  full_name: z.string().optional(),
+  email: z.string().email().optional(),
 });
 
 // Register new user
@@ -33,10 +40,12 @@ router.post("/register", async (req, res, next) => {
       role: userData.role,
     });
 
+    logger.info(`New user registered: ${user.email} with role ${user.role}`);
     res
       .status(HttpStatus.CREATED)
       .json(createSuccessResponse(user, "User created successfully"));
-  } catch (error) {
+  } catch (error: any) {
+    ErrorTracker.trackError(error, "users.register", "");
     next(error);
   }
 });
@@ -59,7 +68,8 @@ router.get("/me", authMiddleware, async (req: AuthRequest, res, next) => {
     res
       .status(HttpStatus.OK)
       .json(createSuccessResponse(user, "User fetched successfully"));
-  } catch (error) {
+  } catch (error: any) {
+    ErrorTracker.trackError(error, "users.me", req.user?.uid);
     next(error);
   }
 });
@@ -76,7 +86,12 @@ router.get("/staff", authMiddleware, async (req, res, next) => {
           "Staff members fetched successfully"
         )
       );
-  } catch (error) {
+  } catch (error: any) {
+    ErrorTracker.trackError(
+      error,
+      "users.staff",
+      (req as AuthRequest).user?.uid
+    );
     next(error);
   }
 });
@@ -99,7 +114,12 @@ router.get("/:userId", authMiddleware, async (req, res, next) => {
     res
       .status(HttpStatus.OK)
       .json(createSuccessResponse(user, "User fetched successfully"));
-  } catch (error) {
+  } catch (error: any) {
+    ErrorTracker.trackError(
+      error,
+      "users.getById",
+      (req as AuthRequest).user?.uid
+    );
     next(error);
   }
 });
@@ -110,14 +130,21 @@ router.get("/", authMiddleware, async (req: AuthRequest, res, next) => {
     // Check if user is admin
     const user = await UserModel.findByEmail(req.user?.email || "");
     if (!user || user.role !== "Admin") {
-      return res.status(403).json({ error: "Access denied" });
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json(
+          createErrorResponse(
+            "Access denied",
+            "Only admins can access this resource",
+            HttpStatus.FORBIDDEN
+          )
+        );
     }
 
     const page = Number(req.query.page) || 1;
     const pageSize = Number(req.query.pageSize) || 10;
-    const search = req.query.search as string;
 
-    const result = await UserModel.findAll(page, pageSize, search);
+    const result = await UserModel.findAll(page, pageSize);
     res
       .status(HttpStatus.OK)
       .json(createSuccessResponse(result, "Users fetched successfully"));
@@ -135,22 +162,48 @@ router.patch(
       // Check if user is admin
       const user = await UserModel.findByEmail(req.user?.email || "");
       if (!user || user.role !== "Admin") {
-        return res.status(403).json({ error: "Access denied" });
+        return res
+          .status(HttpStatus.FORBIDDEN)
+          .json(
+            createErrorResponse(
+              "Access denied",
+              "Only admins can update user roles",
+              HttpStatus.FORBIDDEN
+            )
+          );
       }
 
       const { role } = updateRoleSchema.parse(req.body);
       const targetUser = await UserModel.findById(req.params.userId);
 
       if (!targetUser) {
-        return res.status(404).json({ error: "User not found" });
+        return res
+          .status(HttpStatus.NOT_FOUND)
+          .json(
+            createErrorResponse(
+              "User not found",
+              "User not found",
+              HttpStatus.NOT_FOUND
+            )
+          );
       }
 
       // Prevent admin from changing their own role
       if (targetUser.user_id === user.user_id) {
-        return res.status(400).json({ error: "Cannot change your own role" });
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              "Invalid operation",
+              "Cannot change your own role",
+              HttpStatus.BAD_REQUEST
+            )
+          );
       }
 
       const updatedUser = await UserModel.updateRole(req.params.userId, role);
+      logger.info(`Updated role for user ${req.params.userId} to ${role}`);
+
       res
         .status(HttpStatus.OK)
         .json(
