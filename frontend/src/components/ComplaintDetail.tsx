@@ -179,7 +179,7 @@ export default function ComplaintDetail({
   }
 
   return (
-    <div className="w-full min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+    <div className="w-full min-h-full bg-background p-4 sm:p-6 lg:p-8">
       <div className="w-full">
         {/* Header */}
         <div className="flex items-center justify-between mb-4 sm:mb-6">
