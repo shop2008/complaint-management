@@ -18,7 +18,10 @@ export type ComplaintPriority = "Low" | "Medium" | "High";
 export interface Attachment {
   attachment_id: number;
   complaint_id: number;
+  file_name: string;
   file_url: string;
+  file_type: string;
+  file_size: number;
   uploaded_at: string;
 }
 

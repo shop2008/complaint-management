@@ -47,7 +47,10 @@ CREATE INDEX idx_complaint_updates_complaint ON `Complaint_Updates`(complaint_id
 CREATE TABLE `Attachments` (
     attachment_id INT AUTO_INCREMENT PRIMARY KEY,
     complaint_id INT,
+    file_name VARCHAR(255) NOT NULL,
     file_url VARCHAR(500) NOT NULL, -- Firebase Storage URL
+    file_type VARCHAR(100),
+    file_size INT,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (complaint_id) REFERENCES `Complaints`(complaint_id) ON DELETE CASCADE
 );

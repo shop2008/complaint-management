@@ -4,14 +4,23 @@ import { Attachment } from "../types/complaint.types";
 
 export interface CreateAttachmentDto {
   complaint_id: number;
+  file_name: string;
   file_url: string;
+  file_type: string;
+  file_size: number;
 }
 
 class AttachmentModel {
   async create(attachment: CreateAttachmentDto): Promise<Attachment> {
     const [result] = await db.execute(
-      "INSERT INTO Attachments (complaint_id, file_url) VALUES (?, ?)",
-      [attachment.complaint_id, attachment.file_url]
+      "INSERT INTO Attachments (complaint_id, file_name, file_url, file_type, file_size) VALUES (?, ?, ?, ?, ?)",
+      [
+        attachment.complaint_id,
+        attachment.file_name,
+        attachment.file_url,
+        attachment.file_type,
+        attachment.file_size,
+      ]
     );
 
     const [newAttachment] = await db.execute<RowDataPacket[]>(

@@ -10,6 +10,9 @@ const router = Router();
 const createAttachmentSchema = z.object({
   complaint_id: z.number(),
   file_url: z.string().url(),
+  file_name: z.string(),
+  file_type: z.string(),
+  file_size: z.number(),
 });
 
 // Create an attachment
