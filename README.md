@@ -57,19 +57,18 @@ cd backend
 npm install
 ```
 
-3. Create a `.env` file:
-```env
-PORT=3000
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=your_username
-DB_PASSWORD=your_password
-DB_NAME=ComplaintManagementDB
-FIREBASE_API_KEY=your_firebase_api_key
-```
+3. Set up environment variables:
+   - Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+   - Open the `.env` file and update the values with your configuration
+   - Make sure to set the correct database credentials and Firebase configuration
 
 4. Set up Firebase:
    - Create a Firebase project
+   - Enable Authentication with email/password
+   - Set up Firebase Storage for file uploads
    - Download the service account key
    - Save it as `serviceAccountKey.json` in the backend directory
 
@@ -90,16 +89,14 @@ cd frontend
 npm install
 ```
 
-3. Create a `.env` file:
-```env
-VITE_API_URL=http://localhost:3000
-VITE_FIREBASE_API_KEY=your_firebase_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_firebase_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-```
+3. Set up environment variables:
+   - Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+   - Open the `.env` file and update the values with your configuration
+   - Make sure to set the correct API URL and Firebase configuration
+   - You can get the Firebase configuration values from your Firebase project settings
 
 4. Start the frontend development server:
 ```bash
