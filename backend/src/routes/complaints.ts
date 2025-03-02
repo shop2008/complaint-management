@@ -7,6 +7,8 @@ import {
 } from "../middleware/errorHandler";
 import ComplaintModel from "../models/complaint";
 import { HttpStatus } from "../types/api.types";
+import logger from "../config/logger";
+import { ErrorTracker } from "../utils/errorTracker";
 
 const router = Router();
 
@@ -39,6 +41,11 @@ router.post("/", authMiddleware, async (req, res, next) => {
 // Get all complaints
 router.get("/", authMiddleware, async (req, res, next) => {
   try {
+    logger.info("Fetching all complaints with filters", {
+      userId: (req as any).user?.uid,
+      filters: req.query,
+    });
+
     const page = Number(req.query.page) || 1;
     const pageSize = Number(req.query.pageSize) || 10;
     const filters = {
@@ -56,7 +63,13 @@ router.get("/", authMiddleware, async (req, res, next) => {
         pageSize,
       })
     );
-  } catch (error) {
+  } catch (error: any) {
+    // Use the error tracker to log this error with context
+    ErrorTracker.trackError(
+      error,
+      "complaints.findAll",
+      (req as any).user?.uid
+    );
     next(error);
   }
 });
@@ -130,8 +143,19 @@ router.patch("/:complaintId", authMiddleware, async (req, res, next) => {
 // Delete a complaint
 router.delete("/:complaintId", authMiddleware, async (req, res, next) => {
   try {
+    logger.info(`Deleting complaint with ID ${req.params.complaintId}`, {
+      userId: (req as any).user?.uid,
+    });
+
     const success = await ComplaintModel.delete(Number(req.params.complaintId));
     if (!success) {
+      // Log warning for non-existent resource access attempt
+      ErrorTracker.trackException(
+        `Attempt to delete non-existent complaint ${req.params.complaintId}`,
+        "complaints.delete",
+        { userId: (req as any).user?.uid }
+      );
+
       return res
         .status(HttpStatus.NOT_FOUND)
         .json(
@@ -142,10 +166,26 @@ router.delete("/:complaintId", authMiddleware, async (req, res, next) => {
           )
         );
     }
+
+    logger.info(`Successfully deleted complaint ${req.params.complaintId}`);
     res
       .status(HttpStatus.OK)
       .json(createSuccessResponse(null, "Complaint deleted successfully"));
-  } catch (error) {
+  } catch (error: any) {
+    // Use the error tracker for critical errors
+    if (error.code === "CRITICAL_DB_ERROR") {
+      ErrorTracker.trackCritical(
+        error,
+        `complaints.delete - ID: ${req.params.complaintId}`,
+        (req as any).user?.uid
+      );
+    } else {
+      ErrorTracker.trackError(
+        error,
+        `complaints.delete - ID: ${req.params.complaintId}`,
+        (req as any).user?.uid
+      );
+    }
     next(error);
   }
 });

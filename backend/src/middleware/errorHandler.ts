@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
+import logger, { formatErrorForLog } from "../config/logger";
 import {
   ApiResponse,
   AppError,
@@ -16,8 +17,17 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(`Error: ${err.message}`);
-  console.error(err.stack);
+  // Log the error with detailed information
+  const errorObject = formatErrorForLog(err, req);
+
+  // Log error with appropriate level
+  if (err instanceof AppError && err.statusCode < 500) {
+    // Client errors (4xx) are logged as warnings
+    logger.warn(`Client Error: ${err.message}`, errorObject);
+  } else {
+    // Server errors (5xx) and uncategorized errors are logged as errors
+    logger.error(`Server Error: ${err.message}`, errorObject);
+  }
 
   // Default error response
   const response: ApiResponse = {
@@ -54,18 +64,27 @@ export const errorHandler = (
     return res.status(HttpStatus.UNAUTHORIZED).json(response);
   }
 
-  // Default to internal server error for unhandled errors
+  // For database errors
+  if (
+    err.name === "SequelizeError" ||
+    (err.message && err.message.includes("SQL"))
+  ) {
+    response.error = {
+      code: ErrorCode.DATABASE_ERROR,
+      message: "Database error occurred",
+    };
+    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+  }
+
+  // Default to 500 for unhandled errors
   response.error = {
     code: ErrorCode.INTERNAL_ERROR,
-    message: "An unexpected error occurred",
+    message: "Internal server error",
   };
 
-  // In development, include the error message for debugging
-  if (process.env.NODE_ENV !== "production") {
-    response.error.details = {
-      message: err.message,
-      stack: err.stack,
-    };
+  // Include stack trace in development mode but not in production
+  if (process.env.NODE_ENV === "development") {
+    response.error.details = err.stack;
   }
 
   return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
@@ -75,15 +94,20 @@ export const errorHandler = (
  * Not found middleware - handles 404 errors
  */
 export const notFoundHandler = (req: Request, res: Response) => {
+  logger.warn(`Route not found: ${req.method} ${req.originalUrl}`, {
+    ip: req.ip,
+    userAgent: req.headers["user-agent"],
+    requestId: req.headers["x-request-id"],
+  });
+
   const response: ApiResponse = {
     success: false,
+    timestamp: new Date().toISOString(),
     error: {
       code: ErrorCode.RESOURCE_NOT_FOUND,
-      message: `Route not found: ${req.method} ${req.originalUrl}`,
+      message: "Resource not found",
     },
-    timestamp: new Date().toISOString(),
   };
-
   res.status(HttpStatus.NOT_FOUND).json(response);
 };
 
@@ -96,9 +120,9 @@ export const createSuccessResponse = <T>(
 ): ApiResponse<T> => {
   return {
     success: true,
-    data,
-    message,
     timestamp: new Date().toISOString(),
+    message,
+    data,
   };
 };
 
@@ -111,16 +135,22 @@ export const createErrorResponse = (
   statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR,
   details?: any
 ): { statusCode: number; body: ApiResponse } => {
+  // Log this error with the appropriate level
+  const isServerError = statusCode >= 500;
+  isServerError
+    ? logger.error(`Error Response: ${message}`, { code, statusCode, details })
+    : logger.warn(`Error Response: ${message}`, { code, statusCode, details });
+
   return {
     statusCode,
     body: {
       success: false,
+      timestamp: new Date().toISOString(),
       error: {
         code,
         message,
         details,
       },
-      timestamp: new Date().toISOString(),
     },
   };
 };
