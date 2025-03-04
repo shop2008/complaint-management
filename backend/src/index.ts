@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 import { requestLogger } from "./middleware/logger";
 import { apiLimiter, authLimiter } from "./middleware/rateLimit";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
@@ -47,6 +49,9 @@ logger.info(
 // Apply rate limiting to all routes
 app.use("/api/", apiLimiter);
 
+// Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Apply specific rate limits to routes
 app.use("/api/users/register", authLimiter);
 app.use("/api/users/login", authLimiter);
@@ -67,4 +72,7 @@ app.use(errorHandler);
 // Start the server
 app.listen(port, () => {
   logger.info(`Server running on port ${port}`);
+  logger.info(
+    `API Documentation available at http://localhost:${port}/api-docs`
+  );
 });
