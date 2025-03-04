@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import complaintsApi from "../api/complaints";
-import { Button } from "./ui/button";
+import { useAuth } from "../contexts/AuthContext";
 import {
+  Attachment,
   Complaint,
   ComplaintUpdate,
-  Attachment,
 } from "../types/complaint.types";
-import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
+import { ConfirmationDialog } from "./ui/confirmation-dialog";
 
 interface ComplaintDetailProps {
   complaintId: number;
@@ -28,6 +29,14 @@ export default function ComplaintDetail({
   const [newStatus, setNewStatus] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState<{
+    isOpen: boolean;
+    type: "complaint" | "update";
+    id?: number;
+  }>({
+    isOpen: false,
+    type: "complaint",
+  });
 
   useEffect(() => {
     fetchComplaintDetails();
@@ -44,8 +53,7 @@ export default function ComplaintDetail({
       setNewStatus(complaintData.status);
 
       // Fetch update history
-      const updatesData = await complaintsApi.getComplaintUpdates(complaintId);
-      setUpdates(updatesData || []);
+      await fetchUpdateHistory();
 
       // Fetch attachments
       const attachmentsData = await complaintsApi.getComplaintAttachments(
@@ -55,7 +63,7 @@ export default function ComplaintDetail({
     } catch (err: any) {
       // Extract error message from Axios error or use fallback
       const errorMessage =
-        err.response?.data?.error ||
+        err.response?.data?.error?.message ||
         err.message ||
         "Failed to fetch complaint details";
       setError(errorMessage);
@@ -67,25 +75,34 @@ export default function ComplaintDetail({
     }
   };
 
+  // Fetch update history
+  const fetchUpdateHistory = async () => {
+    const updatesData = await complaintsApi.getComplaintUpdates(complaintId);
+    setUpdates(updatesData || []);
+  };
+
   const handleUpdateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newComment.trim() || !complaint || isSubmitting) return;
 
     try {
       setIsSubmitting(true);
-      await complaintsApi.createComplaintUpdate({
+      const result = await complaintsApi.createComplaintUpdate({
         complaint_id: complaintId,
         updated_by: currentUser!.user_id,
         status: newStatus,
         comment: newComment,
       });
 
-      // Refresh the complaint details after update
-      await fetchComplaintDetails();
-      setNewComment("");
+      if (result) {
+        // update the complaint updates list
+        await fetchUpdateHistory();
+        setNewComment("");
+        setNewStatus("");
+      }
     } catch (err: any) {
       const errorMessage =
-        err.response?.data?.error ||
+        err.response?.data?.error?.message ||
         err.message ||
         "Failed to update complaint";
       setError(errorMessage);
@@ -96,44 +113,42 @@ export default function ComplaintDetail({
 
   const handleDeleteComplaint = async () => {
     if (!complaint || isDeleting) return;
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this complaint? This action cannot be undone."
-      )
-    )
-      return;
-
-    try {
-      setIsDeleting(true);
-      await complaintsApi.deleteComplaint(complaintId);
-      if (onClose) onClose();
-    } catch (err: any) {
-      const errorMessage =
-        err.response?.data?.error ||
-        err.message ||
-        "Failed to delete complaint";
-      setError(errorMessage);
-    } finally {
-      setIsDeleting(false);
-    }
+    setDeleteDialog({
+      isOpen: true,
+      type: "complaint",
+    });
   };
 
   const handleDeleteUpdate = async (updateId: number) => {
     if (isDeleting) return;
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this update? This action cannot be undone."
-      )
-    )
-      return;
+    setDeleteDialog({
+      isOpen: true,
+      type: "update",
+      id: updateId,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (isDeleting) return;
 
     try {
       setIsDeleting(true);
-      await complaintsApi.deleteComplaintUpdate(updateId);
-      await fetchComplaintDetails();
+      if (deleteDialog.type === "complaint") {
+        await complaintsApi.deleteComplaint(complaintId);
+        if (onClose) onClose();
+      } else if (deleteDialog.type === "update" && deleteDialog.id) {
+        const result = await complaintsApi.deleteComplaintUpdate(
+          deleteDialog.id
+        );
+        if (result) {
+          await fetchUpdateHistory();
+        }
+      }
     } catch (err: any) {
       const errorMessage =
-        err.response?.data?.error || err.message || "Failed to delete update";
+        err.response?.data?.error?.message ||
+        err.message ||
+        `Failed to delete ${deleteDialog.type}`;
       setError(errorMessage);
     } finally {
       setIsDeleting(false);
@@ -436,6 +451,20 @@ export default function ComplaintDetail({
           </div>
         </div>
       </div>
+
+      <ConfirmationDialog
+        isOpen={deleteDialog.isOpen}
+        onClose={() => setDeleteDialog({ isOpen: false, type: "complaint" })}
+        onConfirm={handleConfirmDelete}
+        title={`Delete ${
+          deleteDialog.type === "complaint" ? "Complaint" : "Update"
+        }`}
+        message={`Are you sure you want to delete this ${
+          deleteDialog.type === "complaint" ? "complaint" : "update"
+        }? This action cannot be undone.`}
+        confirmText="Delete"
+        variant="destructive"
+      />
     </div>
   );
 }

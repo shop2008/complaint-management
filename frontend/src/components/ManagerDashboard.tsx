@@ -98,8 +98,14 @@ export default function ManagerDashboard() {
         assigned_staff: selectedStaff,
       });
       setFeedback({ type: "success", message: "Staff assigned successfully" });
-      // Refresh the complaints list to show updated assignment
-      fetchComplaints();
+      // update the complaints list locally
+      setComplaints((prev) =>
+        prev.map((complaint) =>
+          complaint.complaint_id === complaintId
+            ? { ...complaint, assigned_staff: selectedStaff }
+            : complaint
+        )
+      );
     } catch (error) {
       console.error("Error assigning staff:", error);
       setFeedback({ type: "error", message: "Failed to assign staff member" });
