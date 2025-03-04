@@ -1,10 +1,13 @@
 import * as admin from "firebase-admin";
-import path from "path";
+import dotenv from "dotenv";
 
-const serviceAccount = require(path.join(
-  __dirname,
-  "../../serviceAccountKey.json"
-));
+dotenv.config();
+
+const serviceAccount = JSON.parse(
+  Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT || "", "base64").toString(
+    "utf8"
+  )
+);
 
 const initializeFirebaseAdmin = () => {
   if (!admin.apps.length) {
