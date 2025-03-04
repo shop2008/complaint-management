@@ -93,7 +93,7 @@ const complaintsApi = {
       assigned_staff?: string;
     }
   ) {
-    const response = await axiosInstance.patch<ApiResponse>(
+    const response = await axiosInstance.put<ApiResponse>(
       `/complaints/${complaintId}`,
       data
     );

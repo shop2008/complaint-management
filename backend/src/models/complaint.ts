@@ -51,7 +51,7 @@ class ComplaintModel {
 
       // Build WHERE clause and values array
       Object.entries(filters).forEach(([key, value]) => {
-        if (value) {
+        if (value && key !== "page" && key !== "pageSize") {
           conditions.push(`${key} = ?`);
           values.push(value);
         }

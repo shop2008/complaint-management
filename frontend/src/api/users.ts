@@ -88,7 +88,7 @@ const usersApi = {
    * @returns The updated user
    */
   async updateUserRole(userId: string, role: UserRole): Promise<User> {
-    const response = await axiosInstance.patch<ApiResponse<User>>(
+    const response = await axiosInstance.put<ApiResponse<User>>(
       `/users/${userId}/role`,
       {
         role,
