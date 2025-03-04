@@ -1,31 +1,29 @@
 import {
+  Navigate,
+  Route,
   BrowserRouter as Router,
   Routes,
-  Route,
-  Navigate,
-  useParams,
   useNavigate,
+  useParams,
 } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext";
-import { SidebarProvider } from "./contexts/SidebarContext";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import AuthGuard from "./components/AuthGuard";
+import ComplaintDetail from "./components/ComplaintDetail";
 import CustomerDashboard from "./components/CustomerDashboard";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import Login from "./components/Login";
 import ManagerDashboard from "./components/ManagerDashboard";
+import Navigation from "./components/Navigation";
+import Register from "./components/Register";
+import RoleBasedRedirect from "./components/RoleBasedRedirect";
+import Sidebar from "./components/Sidebar";
 import StaffDashboard from "./components/StaffDashboard";
 import UserManagement from "./components/UserManagement";
-import RoleBasedRedirect from "./components/RoleBasedRedirect";
-import AuthGuard from "./components/AuthGuard";
-import Navigation from "./components/Navigation";
-import Sidebar from "./components/Sidebar";
-import { useAuth } from "./contexts/AuthContext";
-import { useSidebar } from "./contexts/SidebarContext";
-import ComplaintDetail from "./components/ComplaintDetail";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { currentUser } = useAuth();
-  const { isCollapsed, isMobile, isMobileOpen } = useSidebar();
+  const { isCollapsed, isMobile } = useSidebar();
 
   const getMainContentClasses = () => {
     if (!currentUser) return "";

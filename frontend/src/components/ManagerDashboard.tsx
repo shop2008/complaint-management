@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import complaintsApi from "../api/complaints";
 import usersApi from "../api/users";
-import { useNavigate } from "react-router-dom";
-import ComplaintDetail from "./ComplaintDetail";
-import { Complaint, ComplaintStatus } from "../types/complaint.types";
 import { cn } from "../lib/utils";
+import { Complaint } from "../types/complaint.types";
+import ComplaintDetail from "./ComplaintDetail";
 
 export default function ManagerDashboard() {
-  const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [loading, setLoading] = useState(true);
