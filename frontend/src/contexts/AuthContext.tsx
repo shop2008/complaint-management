@@ -3,6 +3,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { app } from "../config/firebase";
 import usersApi from "../api/users";
@@ -19,6 +20,7 @@ interface AuthContextType {
     fullName: string
   ) => Promise<void>;
   signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -31,6 +33,9 @@ const AuthContext = createContext<AuthContextType>({
     throw new Error("Not implemented");
   },
   signOut: async () => {
+    throw new Error("Not implemented");
+  },
+  resetPassword: async () => {
     throw new Error("Not implemented");
   },
 });
@@ -128,6 +133,10 @@ export function AuthProvider({
     setCurrentUser(null);
   };
 
+  const resetPassword = async (email: string): Promise<void> => {
+    await sendPasswordResetEmail(auth, email);
+  };
+
   const value = useMemo(
     () => ({
       currentUser,
@@ -135,6 +144,7 @@ export function AuthProvider({
       signIn,
       register,
       signOut,
+      resetPassword,
     }),
     [currentUser, loading]
   );

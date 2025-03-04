@@ -20,6 +20,7 @@ import StaffDashboard from "./components/StaffDashboard";
 import UserManagement from "./components/UserManagement";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
+import ForgotPassword from "./components/ForgotPassword";
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { currentUser } = useAuth();
@@ -79,6 +80,7 @@ function App() {
               {/* Public routes */}
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
 
               {/* Protected routes */}
               <Route
