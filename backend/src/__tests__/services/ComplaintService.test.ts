@@ -136,4 +136,120 @@ describe("ComplaintService", () => {
       ).rejects.toThrow("Update failed");
     });
   });
+
+  describe("getAllComplaints", () => {
+    it("should return paginated complaints with filters", async () => {
+      const mockComplaints = [
+        {
+          complaint_id: 1,
+          user_id: "user123",
+          category: "Technical",
+          description: "Test complaint 1",
+          status: "Pending",
+          priority: "High",
+          created_at: "2024-03-04T00:00:00Z",
+          updated_at: "2024-03-04T00:00:00Z",
+        },
+        {
+          complaint_id: 2,
+          user_id: "user456",
+          category: "Billing",
+          description: "Test complaint 2",
+          status: "In Progress",
+          priority: "Medium",
+          created_at: "2024-03-04T00:00:00Z",
+          updated_at: "2024-03-04T00:00:00Z",
+        },
+      ];
+
+      const mockResponse = {
+        complaints: mockComplaints,
+        total: 2,
+      };
+
+      const filters = { status: "Pending", priority: "High" };
+      (ComplaintModel.findAll as jest.Mock).mockResolvedValue(mockResponse);
+
+      const result = await ComplaintService.getAllComplaints(1, 10, filters);
+
+      expect(ComplaintModel.findAll).toHaveBeenCalledWith(1, 10, filters);
+      expect(result).toEqual(mockResponse);
+    });
+
+    it("should throw an error if fetching complaints fails", async () => {
+      (ComplaintModel.findAll as jest.Mock).mockRejectedValue(
+        new Error("Database error")
+      );
+
+      await expect(ComplaintService.getAllComplaints(1, 10)).rejects.toThrow(
+        "Database error"
+      );
+    });
+  });
+
+  describe("getComplaintsByUserId", () => {
+    it("should return complaints for a specific user", async () => {
+      const mockComplaints = [
+        {
+          complaint_id: 1,
+          user_id: "user123",
+          category: "Technical",
+          description: "Test complaint 1",
+          status: "Pending",
+          priority: "High",
+          created_at: "2024-03-04T00:00:00Z",
+          updated_at: "2024-03-04T00:00:00Z",
+        },
+        {
+          complaint_id: 2,
+          user_id: "user123",
+          category: "Billing",
+          description: "Test complaint 2",
+          status: "In Progress",
+          priority: "Medium",
+          created_at: "2024-03-04T00:00:00Z",
+          updated_at: "2024-03-04T00:00:00Z",
+        },
+      ];
+
+      (ComplaintModel.findByUserId as jest.Mock).mockResolvedValue(
+        mockComplaints
+      );
+
+      const result = await ComplaintService.getComplaintsByUserId("user123");
+
+      expect(ComplaintModel.findByUserId).toHaveBeenCalledWith("user123");
+      expect(result).toEqual(mockComplaints);
+    });
+
+    it("should throw an error if fetching user complaints fails", async () => {
+      (ComplaintModel.findByUserId as jest.Mock).mockRejectedValue(
+        new Error("Database error")
+      );
+
+      await expect(
+        ComplaintService.getComplaintsByUserId("user123")
+      ).rejects.toThrow("Database error");
+    });
+  });
+
+  describe("deleteComplaint", () => {
+    it("should delete a complaint successfully", async () => {
+      (ComplaintModel.delete as jest.Mock).mockResolvedValue(undefined);
+
+      await ComplaintService.deleteComplaint(1);
+
+      expect(ComplaintModel.delete).toHaveBeenCalledWith(1);
+    });
+
+    it("should throw an error if complaint deletion fails", async () => {
+      (ComplaintModel.delete as jest.Mock).mockRejectedValue(
+        new Error("Delete failed")
+      );
+
+      await expect(ComplaintService.deleteComplaint(1)).rejects.toThrow(
+        "Delete failed"
+      );
+    });
+  });
 });
