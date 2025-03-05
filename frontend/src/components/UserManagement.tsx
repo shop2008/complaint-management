@@ -127,9 +127,14 @@ export default function UserManagement() {
         </div>
       )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-          User Management
-        </h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-semibold text-gray-900">
+            User Management
+          </h1>
+          <div className="text-sm text-gray-500">
+            Manage user roles and permissions
+          </div>
+        </div>
 
         {/* Mobile View */}
         <div className="block lg:hidden">
@@ -140,33 +145,50 @@ export default function UserManagement() {
                 className="bg-white rounded-lg border border-gray-200 shadow-sm p-4 space-y-3"
               >
                 <div className="space-y-1">
-                  <div className="text-sm font-medium text-gray-900">
-                    {user.full_name}
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm font-medium text-gray-900">
+                      {user.full_name}
+                    </div>
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        user.role === "Admin"
+                          ? "bg-purple-100 text-purple-800"
+                          : user.role === "Manager"
+                          ? "bg-blue-100 text-blue-800"
+                          : user.role === "Staff"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {user.role}
+                    </span>
                   </div>
                   <div className="text-sm text-gray-600">{user.email}</div>
-                  <div className="text-sm text-gray-500">Role: {user.role}</div>
                 </div>
 
                 <div className="pt-2 border-t border-gray-100">
                   <div className="flex flex-col space-y-2">
-                    <select
-                      value={user.role}
-                      onChange={(e) =>
-                        handleRoleUpdate(user.user_id, e.target.value)
-                      }
-                      className="w-full rounded-md border-gray-300 text-sm"
-                      disabled={
-                        user.user_id === currentUser?.user_id ||
-                        updatingRoles[user.user_id]
-                      }
-                    >
-                      <option value="Admin">Admin</option>
-                      <option value="Manager">Manager</option>
-                      <option value="Staff">Staff</option>
-                      <option value="Customer">Customer</option>
-                    </select>
-                    {updatingRoles[user.user_id] && (
-                      <div className="flex justify-center">
+                    <label className="text-sm font-medium text-gray-700">
+                      Change Role
+                    </label>
+                    <div className="flex items-center space-x-2">
+                      <select
+                        value={user.role}
+                        onChange={(e) =>
+                          handleRoleUpdate(user.user_id, e.target.value)
+                        }
+                        className="w-full rounded-md border-gray-300 text-sm focus:ring-blue-500 focus:border-blue-500"
+                        disabled={
+                          user.user_id === currentUser?.user_id ||
+                          updatingRoles[user.user_id]
+                        }
+                      >
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Staff">Staff</option>
+                        <option value="Customer">Customer</option>
+                      </select>
+                      {updatingRoles[user.user_id] ? (
                         <svg
                           className="animate-spin h-5 w-5 text-blue-600"
                           xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +209,16 @@ export default function UserManagement() {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           ></path>
                         </svg>
-                      </div>
+                      ) : (
+                        <span className="material-icons text-gray-400">
+                          admin_panel_settings
+                        </span>
+                      )}
+                    </div>
+                    {user.user_id === currentUser?.user_id && (
+                      <p className="text-xs text-gray-500">
+                        You cannot change your own role
+                      </p>
                     )}
                   </div>
                 </div>
@@ -211,41 +242,72 @@ export default function UserManagement() {
                   Current Role
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  Change Role
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {users.map((user) => (
                 <tr key={user.user_id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {user.full_name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {user.email}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {user.role}
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 h-10 w-10">
+                        <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                          <span className="text-blue-600 font-medium">
+                            {user.full_name.charAt(0)}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="ml-4">
+                        <div className="text-sm font-medium text-gray-900">
+                          {user.full_name}
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center space-x-2">
-                      <select
-                        value={user.role}
-                        onChange={(e) =>
-                          handleRoleUpdate(user.user_id, e.target.value)
-                        }
-                        className="rounded-md border-gray-300 text-sm"
-                        disabled={
-                          user.user_id === currentUser?.user_id ||
-                          updatingRoles[user.user_id]
-                        }
-                      >
-                        <option value="Admin">Admin</option>
-                        <option value="Manager">Manager</option>
-                        <option value="Staff">Staff</option>
-                        <option value="Customer">Customer</option>
-                      </select>
-                      {updatingRoles[user.user_id] && (
+                    <div className="text-sm text-gray-900">{user.email}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        user.role === "Admin"
+                          ? "bg-purple-100 text-purple-800"
+                          : user.role === "Manager"
+                          ? "bg-blue-100 text-blue-800"
+                          : user.role === "Staff"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {user.role}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center space-x-4">
+                      <div className="flex-1">
+                        <select
+                          value={user.role}
+                          onChange={(e) =>
+                            handleRoleUpdate(user.user_id, e.target.value)
+                          }
+                          className={`block w-full rounded-md border-gray-300 text-sm focus:ring-blue-500 focus:border-blue-500 ${
+                            user.user_id === currentUser?.user_id
+                              ? "bg-gray-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={
+                            user.user_id === currentUser?.user_id ||
+                            updatingRoles[user.user_id]
+                          }
+                        >
+                          <option value="Admin">Admin</option>
+                          <option value="Manager">Manager</option>
+                          <option value="Staff">Staff</option>
+                          <option value="Customer">Customer</option>
+                        </select>
+                      </div>
+                      {updatingRoles[user.user_id] ? (
                         <svg
                           className="animate-spin h-5 w-5 text-blue-600"
                           xmlns="http://www.w3.org/2000/svg"
@@ -266,8 +328,17 @@ export default function UserManagement() {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           ></path>
                         </svg>
+                      ) : (
+                        <span className="material-icons text-gray-400">
+                          admin_panel_settings
+                        </span>
                       )}
                     </div>
+                    {user.user_id === currentUser?.user_id && (
+                      <p className="mt-1 text-xs text-gray-500">
+                        You cannot change your own role
+                      </p>
+                    )}
                   </td>
                 </tr>
               ))}
