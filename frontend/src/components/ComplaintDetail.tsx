@@ -87,16 +87,23 @@ export default function ComplaintDetail({
 
     try {
       setIsSubmitting(true);
-      const result = await complaintsApi.createComplaintUpdate({
-        complaint_id: complaintId,
-        updated_by: currentUser!.user_id,
-        status: newStatus,
-        comment: newComment,
-      });
+      // create the complaint update and update the complaint status
+      const [complaintUpdate, complaint] = await Promise.all([
+        complaintsApi.createComplaintUpdate({
+          complaint_id: complaintId,
+          updated_by: currentUser!.user_id,
+          status: newStatus,
+          comment: newComment,
+        }),
+        complaintsApi.updateComplaint(complaintId, {
+          status: newStatus,
+        }),
+      ]);
 
-      if (result) {
+      if (complaintUpdate && complaint) {
         // update the complaint updates list
         await fetchUpdateHistory();
+        setComplaint(complaint);
         setNewComment("");
         setNewStatus("");
       }
@@ -137,12 +144,27 @@ export default function ComplaintDetail({
         await complaintsApi.deleteComplaint(complaintId);
         if (onClose) onClose();
       } else if (deleteDialog.type === "update" && deleteDialog.id) {
-        const result = await complaintsApi.deleteComplaintUpdate(
-          deleteDialog.id
+        // Delete the complaint update
+        await complaintsApi.deleteComplaintUpdate(deleteDialog.id);
+
+        // Get the previous update to revert the status
+        const previousUpdate = updates.find(
+          (update) => update.update_id !== deleteDialog.id
         );
-        if (result) {
-          await fetchUpdateHistory();
+        if (previousUpdate) {
+          // Update the complaint with the previous status
+          await complaintsApi.updateComplaint(complaintId, {
+            status: previousUpdate.status,
+          });
+        } else {
+          // If no previous update, set the complaint status to "Pending"
+          await complaintsApi.updateComplaint(complaintId, {
+            status: "Pending",
+          });
         }
+
+        // Refresh the updates list and complaint details
+        await fetchComplaintDetails();
       }
     } catch (err: any) {
       const errorMessage =
