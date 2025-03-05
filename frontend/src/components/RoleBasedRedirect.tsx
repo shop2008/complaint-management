@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import LandingPage from "./LandingPage";
 
 export default function RoleBasedRedirect() {
   const { currentUser, loading } = useAuth();
@@ -12,8 +13,9 @@ export default function RoleBasedRedirect() {
     );
   }
 
+  // Show landing page for unauthenticated users
   if (!currentUser) {
-    return <Navigate to="/login" replace />;
+    return <LandingPage />;
   }
 
   // Redirect based on user role

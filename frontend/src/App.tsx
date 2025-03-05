@@ -21,6 +21,7 @@ import UserManagement from "./components/UserManagement";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
 import ForgotPassword from "./components/ForgotPassword";
+import LandingPage from "./components/LandingPage";
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { currentUser } = useAuth();
@@ -81,16 +82,9 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/submit-complaint" element={<CustomerDashboard />} />
 
               {/* Protected routes */}
-              <Route
-                path="/submit-complaint"
-                element={
-                  <AuthGuard requiredRole="Customer">
-                    <CustomerDashboard />
-                  </AuthGuard>
-                }
-              />
               <Route
                 path="/manager"
                 element={
@@ -124,7 +118,7 @@ function App() {
                 }
               />
 
-              {/* Default redirect */}
+              {/* Root route with role-based redirect */}
               <Route path="/" element={<RoleBasedRedirect />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

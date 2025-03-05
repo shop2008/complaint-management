@@ -113,15 +113,16 @@ export default function CustomerDashboard() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      if (!currentUser?.user_id) {
-        setSubmitStatus({
-          type: "error",
-          message: "You must be logged in to submit a complaint",
-        });
-        return;
-      }
 
+    if (!currentUser) {
+      setSubmitStatus({
+        type: "error",
+        message: "Please login or register to submit a complaint.",
+      });
+      return;
+    }
+
+    try {
       setIsUploading(true);
       setSubmitStatus(null);
 
@@ -167,9 +168,11 @@ export default function CustomerDashboard() {
         message: "Complaint submitted successfully!",
       });
 
-      // Reload user complaints
-      loadUserComplaints();
-    } catch (error) {
+      // Reload complaints if user is logged in
+      if (currentUser) {
+        loadUserComplaints();
+      }
+    } catch (error: any) {
       console.error("Error submitting complaint:", error);
       setSubmitStatus({
         type: "error",
@@ -222,6 +225,27 @@ export default function CustomerDashboard() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200/75 overflow-hidden">
         <div className="p-6">
           <h2 className="text-2xl font-bold mb-6">Submit a Complaint</h2>
+          {!currentUser && (
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
+              <p className="text-blue-800">
+                Please{" "}
+                <button
+                  onClick={() => navigate("/login")}
+                  className="text-blue-600 hover:text-blue-800 font-medium underline"
+                >
+                  login
+                </button>{" "}
+                or{" "}
+                <button
+                  onClick={() => navigate("/register")}
+                  className="text-blue-600 hover:text-blue-800 font-medium underline"
+                >
+                  register
+                </button>{" "}
+                to submit a complaint and track its status.
+              </p>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div>
@@ -424,7 +448,8 @@ export default function CustomerDashboard() {
                 {userComplaints.map((complaint) => (
                   <div
                     key={complaint.complaint_id}
-                    className="bg-white rounded-lg border border-gray-200 shadow-sm p-4 space-y-3"
+                    className="bg-white rounded-lg border border-gray-200 s
+                    3"
                     onClick={() => handleViewDetails(complaint.complaint_id)}
                   >
                     <div className="flex justify-between items-start">
