@@ -10,6 +10,7 @@ import AuthGuard from "./components/AuthGuard";
 import ComplaintDetail from "./components/ComplaintDetail";
 import CustomerDashboard from "./components/CustomerDashboard";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import ForgotPassword from "./components/ForgotPassword";
 import Login from "./components/Login";
 import ManagerDashboard from "./components/ManagerDashboard";
 import Navigation from "./components/Navigation";
@@ -20,8 +21,6 @@ import StaffDashboard from "./components/StaffDashboard";
 import UserManagement from "./components/UserManagement";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
-import ForgotPassword from "./components/ForgotPassword";
-import LandingPage from "./components/LandingPage";
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { currentUser } = useAuth();
