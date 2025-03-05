@@ -217,7 +217,7 @@ export default function CustomerDashboard() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-0">
       {/* Submit Complaint Section */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200/75 overflow-hidden">
         <div className="p-6">
