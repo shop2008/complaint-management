@@ -4,22 +4,22 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Function to decode base64 CA cert and create temp file in memory
-function getSSLConfig() {
-  try {
-    const caCert = Buffer.from(
-      process.env.MYSQL_CA_CERT ?? "",
-      "base64"
-    ).toString("utf-8");
+// function getSSLConfig() {
+//   try {
+//     const caCert = Buffer.from(
+//       process.env.MYSQL_CA_CERT ?? "",
+//       "base64"
+//     ).toString("utf-8");
 
-    return {
-      ca: caCert,
-      rejectUnauthorized: true,
-    };
-  } catch (error) {
-    console.error("Error processing CA certificate:", error);
-    throw error;
-  }
-}
+//     return {
+//       ca: caCert,
+//       rejectUnauthorized: true,
+//     };
+//   } catch (error) {
+//     console.error("Error processing CA certificate:", error);
+//     throw error;
+//   }
+// }
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST ?? "localhost",
@@ -30,7 +30,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  ssl: getSSLConfig(),
+  // ssl: getSSLConfig(),
 });
 
 export default pool;
