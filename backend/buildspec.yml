@@ -21,14 +21,15 @@ phases:
   post_build:
     commands:
       - echo "Build completed successfully!"
-
+      - cd ..
 artifacts:
   files:
-    - backend/dist/**/*
-    - backend/package.json
-    - backend/package-lock.json
-    - backend/node_modules/**/*
+    - dist/**/*
+    - package.json
+    - package-lock.json
+    - node_modules/**/*
   discard-paths: no
+  base-directory: backend
 
 cache:
   paths:
