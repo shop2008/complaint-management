@@ -13,6 +13,7 @@ phases:
       - echo "Running tests..."
       - npm run test
       
+      
   build:
     commands:
       - echo "Building the application..."
