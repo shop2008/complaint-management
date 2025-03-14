@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - cd backend
+      - npm install  # Install dependencies for the testing stage
+
+  pre_build:
+    commands:
+      - echo "Running tests..."
+      - npm run test  # Run tests only
+
+  post_build:
+    commands:
+      - echo "Tests completed!"
+
+artifacts:
+  files:
+    - dist/**/*  # You can include test results or logs here if needed
+
+cache:
+  paths:
+    - backend/node_modules/**/*  # Cache node_modules to speed up installs

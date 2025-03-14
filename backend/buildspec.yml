@@ -7,12 +7,6 @@ phases:
     commands:
       - cd backend
       - npm install
-
-  pre_build:
-    commands:
-      - echo "Running tests..."
-      - npm run test
-      
       
   build:
     commands:
@@ -23,6 +17,7 @@ phases:
     commands:
       - echo "Build completed successfully!"
       - cd ..
+      
 artifacts:
   files:
     - dist/**/*
