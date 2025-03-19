@@ -14,21 +14,50 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      }
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200 || response.type !== "basic") {
+  // Check if the request is an API request
+  if (event.request.url.includes("/api/")) {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        if (response) {
+          // Return cached response
           return response;
         }
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-        return response;
-      });
-    })
-  );
+
+        return fetch(event.request.clone())
+          .then((response) => {
+            if (!response || response.status !== 200) {
+              return response;
+            }
+
+            // Clone the response
+            const responseToCache = response.clone();
+
+            caches.open("api-cache").then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+
+            return response;
+          })
+          .catch(() => {
+            // Return a custom offline response for API requests
+            return new Response(
+              JSON.stringify({
+                error: "You are offline",
+                offline: true,
+                timestamp: new Date().toISOString(),
+              }),
+              {
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+          });
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      })
+    );
+  }
 });

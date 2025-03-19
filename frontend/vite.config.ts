@@ -37,13 +37,16 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/api\.yourbackend\.com\/.*/i,
-            handler: "NetworkFirst",
+            urlPattern: new RegExp("^https?://[^/]+/api/"),
+            handler: "CacheFirst",
             options: {
               cacheName: "api-cache",
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
               expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24, // 24 hours
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24,
               },
             },
           },
