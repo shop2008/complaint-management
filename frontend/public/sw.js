@@ -17,29 +17,36 @@ self.addEventListener("fetch", (event) => {
   // Check if the request is an API request
   if (event.request.url.includes("/api/")) {
     event.respondWith(
-      caches.match(event.request).then((response) => {
-        if (response) {
-          // Return cached response
-          return response;
-        }
+      // First check if we're online
+      Promise.resolve(self.navigator.onLine).then((isOnline) => {
+        if (isOnline) {
+          // If online, try network first
+          return fetch(event.request.clone())
+            .then((response) => {
+              if (!response || response.status !== 200) {
+                return response;
+              }
 
-        return fetch(event.request.clone())
-          .then((response) => {
-            if (!response || response.status !== 200) {
+              // Clone the response
+              const responseToCache = response.clone();
+
+              caches.open("api-cache").then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+
               return response;
-            }
-
-            // Clone the response
-            const responseToCache = response.clone();
-
-            caches.open("api-cache").then((cache) => {
-              cache.put(event.request, responseToCache);
+            })
+            .catch(() => {
+              // If network fails while online, try cache
+              return caches.match(event.request);
             });
-
-            return response;
-          })
-          .catch(() => {
-            // Return a custom offline response for API requests
+        } else {
+          // If offline, try cache first
+          return caches.match(event.request).then((cachedResponse) => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            // If no cache available, return offline response
             return new Response(
               JSON.stringify({
                 error: "You are offline",
@@ -51,12 +58,20 @@ self.addEventListener("fetch", (event) => {
               }
             );
           });
+        }
       })
     );
   } else {
+    // For non-API requests
     event.respondWith(
-      caches.match(event.request).then((response) => {
-        return response || fetch(event.request);
+      Promise.resolve(self.navigator.onLine).then((isOnline) => {
+        if (isOnline) {
+          return fetch(event.request).catch(() => caches.match(event.request));
+        } else {
+          return caches
+            .match(event.request)
+            .then((cachedResponse) => cachedResponse || fetch(event.request));
+        }
       })
     );
   }
