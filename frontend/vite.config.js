@@ -36,19 +36,26 @@ export default defineConfig({
                 globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
                 runtimeCaching: [
                     {
-                        urlPattern: /^https:\/\/api\.yourbackend\.com\/.*/i,
-                        handler: "NetworkFirst",
+                        urlPattern: function (_a) {
+                            var url = _a.url;
+                            return url.pathname.startsWith("/api/");
+                        },
+                        handler: "CacheFirst",
                         options: {
                             cacheName: "api-cache",
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
                             expiration: {
-                                maxEntries: 10,
-                                maxAgeSeconds: 60 * 60 * 24, // 24 hours
+                                maxEntries: 100,
+                                maxAgeSeconds: 60 * 60, // 1 hour
                             },
                         },
                     },
                 ],
                 cleanupOutdatedCaches: true,
                 skipWaiting: true,
+                clientsClaim: true,
             },
         }),
     ],

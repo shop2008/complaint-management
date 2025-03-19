@@ -37,7 +37,7 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
         runtimeCaching: [
           {
-            urlPattern: new RegExp("^https?://[^/]+/api/"),
+            urlPattern: ({ url }) => url.pathname.startsWith("/api/"),
             handler: "CacheFirst",
             options: {
               cacheName: "api-cache",
@@ -46,13 +46,14 @@ export default defineConfig({
               },
               expiration: {
                 maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24,
+                maxAgeSeconds: 60 * 60, // 1 hour
               },
             },
           },
         ],
         cleanupOutdatedCaches: true,
         skipWaiting: true,
+        clientsClaim: true,
       },
     }),
   ],
