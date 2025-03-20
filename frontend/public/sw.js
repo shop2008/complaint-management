@@ -7,9 +7,32 @@ const urlsToCache = [
   "/icon-512x512.png",
 ];
 
+// Install event handler
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
+  );
+  // Activate worker immediately
+  self.skipWaiting();
+});
+
+// Activate event handler
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    Promise.all([
+      // Claim clients immediately
+      clients.claim(),
+      // Clean up old caches
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== CACHE_NAME) {
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      }),
+    ])
   );
 });
 
